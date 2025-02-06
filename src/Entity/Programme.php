@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ProgrammeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: ProgrammeRepository::class)]
+class Programme
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $titre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'programmes')]
+    private ?utilisateur $utilisateur = null;
+
+    /**
+     * @var Collection<int, Sceance>
+     */
+    #[ORM\OneToMany(targetEntity: Sceance::class, mappedBy: 'programme')]
+    private Collection $sceances;
+
+    public function __construct()
+    {
+        $this->sceances = new ArrayCollection();
+    }
+
+
+   
+   
+ 
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): static
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sceance>
+     */
+    public function getSceances(): Collection
+    {
+        return $this->sceances;
+    }
+
+    public function addSceance(Sceance $sceance): static
+    {
+        if (!$this->sceances->contains($sceance)) {
+            $this->sceances->add($sceance);
+            $sceance->setProgramme($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSceance(Sceance $sceance): static
+    {
+        if ($this->sceances->removeElement($sceance)) {
+            // set the owning side to null (unless already changed)
+            if ($sceance->getProgramme() === $this) {
+                $sceance->setProgramme(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
+
+    
+
+}
