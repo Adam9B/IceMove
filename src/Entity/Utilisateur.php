@@ -18,8 +18,7 @@ class Utilisateur
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $pseudo = null;
+   
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -27,8 +26,7 @@ class Utilisateur
     #[ORM\Column(length: 255)]
     private ?string $motdepasse = null;
 
-    #[ORM\Column]
-    private ?int $tel = null;
+  
 
     #[ORM\Column(length: 255)]
     private ?string $role = null;
@@ -61,17 +59,7 @@ class Utilisateur
         return $this;
     }
 
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): static
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
+   
 
     public function getEmail(): ?string
     {
@@ -97,17 +85,7 @@ class Utilisateur
         return $this;
     }
 
-    public function getTel(): ?int
-    {
-        return $this->tel;
-    }
-
-    public function setTel(int $tel): static
-    {
-        $this->tel = $tel;
-
-        return $this;
-    }
+    
 
     public function getRole(): ?string
     {
