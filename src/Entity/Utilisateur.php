@@ -3,63 +3,42 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'il y a déjà un compte avec cet email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
-
-   
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $motdepasse = null;
-
-  
-
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
-     * @var Collection<int, Programme>
+     * @var string The hashed password
      */
-    #[ORM\OneToMany(targetEntity: Programme::class, mappedBy: 'utilisateur')]
-    private Collection $programmes;
+    #[ORM\Column]
+    private ?string $password = null;
 
-    public function __construct()
-    {
-        $this->programmes = new ArrayCollection();
-    }
+  
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-   
 
     public function getEmail(): ?string
     {
@@ -73,59 +52,63 @@ class Utilisateur
         return $this;
     }
 
-    public function getMotdepasse(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->motdepasse;
+        return (string) $this->email;
     }
 
-    public function setMotdepasse(string $motdepasse): static
+    /**
+     * @see UserInterface
+     *
+     * @return list<string>
+     */
+    public function getRoles(): array
     {
-        $this->motdepasse = $motdepasse;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        return $this;
+        return array_unique($roles);
     }
 
-    
-
-    public function getRole(): ?string
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
     {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Programme>
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getProgrammes(): Collection
+    public function getPassword(): ?string
     {
-        return $this->programmes;
+        return $this->password;
     }
 
-    public function addProgramme(Programme $programme): static
+    public function setPassword(string $password): static
     {
-        if (!$this->programmes->contains($programme)) {
-            $this->programmes->add($programme);
-            $programme->setUtilisateur($this);
-        }
+        $this->password = $password;
 
         return $this;
     }
 
-    public function removeProgramme(Programme $programme): static
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
     {
-        if ($this->programmes->removeElement($programme)) {
-            // set the owning side to null (unless already changed)
-            if ($programme->getUtilisateur() === $this) {
-                $programme->setUtilisateur(null);
-            }
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
+
+   
 }

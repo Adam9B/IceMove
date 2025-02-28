@@ -70,17 +70,7 @@ class Article
         return $this;
     }
 
-    public function getUtilisateur(): ?utilisateur
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?utilisateur $utilisateur): static
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
+   
 
     public function getCategorie(): ?Categorie
     {

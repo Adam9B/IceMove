@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}TEST DE l'accueil {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/EDW24-25/Desktop/ProjetFin/IceMove/src/Controller/AccueilController.php</code></li>
-        <li>Your template at <code>C:/Users/EDW24-25/Desktop/ProjetFin/IceMove/templates/accueil/index.html.twig</code></li>
-    </ul>
-</div>
+
+
+<a href ="{{path('pageExo')}}"><button> {{Nom}}</button></a>
+<p>{{LeGoatDesEcheccs}}</p>
+
+<a href ="{{path('pageProgramme')}}"><button> Programme</button></a>
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <!-- Les boutons "Se connecter" et "S'inscrire" ne seront pas affichés -->
+
+    <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
+{% else %}
+    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+    <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
+{% endif %}
+
+
+{# <a href ="{{path('app_login')}}"><button> se connecter</button></a> #}
+
 {% endblock %}
