@@ -55,15 +55,6 @@ flecheRetour.addEventListener('click', () => {
     console.log('fleche retour a fonctionné')
 });
 
-
-
-
 // fin flecheRetour
-btest = document.getElementById('test');
 
-let testjson = async() => { let result = await fetch('public/FINALjsonAPI.json')
 
-    result.json();
-}
-
-testjson();
