@@ -19,8 +19,12 @@ class RepetitionSerie
     #[ORM\Column]
     private ?int $serie = null;
 
-    #[ORM\ManyToOne(inversedBy: 'repetitionSeries')]
-    private ?sceance $sceance = null;
+    /**
+     * Relation ManyToOne avec Sceance.
+     */
+    #[ORM\ManyToOne(targetEntity: Sceance::class, inversedBy: 'repetitionSeries')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Sceance $sceance = null;
 
     public function getId(): ?int
     {
@@ -35,7 +39,6 @@ class RepetitionSerie
     public function setRepetition(int $repetition): static
     {
         $this->repetition = $repetition;
-
         return $this;
     }
 
@@ -47,19 +50,17 @@ class RepetitionSerie
     public function setSerie(int $serie): static
     {
         $this->serie = $serie;
-
         return $this;
     }
 
-    public function getSceance(): ?sceance
+    public function getSceance(): ?Sceance
     {
         return $this->sceance;
     }
 
-    public function setSceance(?sceance $sceance): static
+    public function setSceance(?Sceance $sceance): static
     {
         $this->sceance = $sceance;
-
         return $this;
     }
 }

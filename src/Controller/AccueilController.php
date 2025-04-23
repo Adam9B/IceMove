@@ -33,28 +33,7 @@ final class AccueilController extends AbstractController
     }
 
 
-
-    #[Route('/exercice', name: 'pageExo')]
-    public function pageExo(): Response
-
-    {
-        return $this->render('accueil/pageExo.html.twig', [
-            
-        ]);
-        // return $this->redirectToRoute('pageExo');
-        
-    }
-
-
-
-    #[Route('/programme', name: 'pageProgramme')]
-    public function pageProgramme(): Response
-    {
-        return $this->render('accueil/pageProgramme.html.twig', [
-            
-        ]);
-        
-    }
+    
 
     // #[Route('/exercice', name: 'pageExo')]
     // public function pageExo(): Response

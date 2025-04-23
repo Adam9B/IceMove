@@ -19,13 +19,14 @@ class Programme
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\ManyToOne(inversedBy: 'programmes')]
-    private ?utilisateur $utilisateur = null;
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'programmes')]
+    #[ORM\JoinColumn(nullable: false)] // L'utilisateur est obligatoire
+    private ?Utilisateur $utilisateur = null;
 
     /**
      * @var Collection<int, Sceance>
      */
-    #[ORM\OneToMany(targetEntity: Sceance::class, mappedBy: 'programme')]
+    #[ORM\OneToMany(mappedBy: 'programme', targetEntity: Sceance::class, orphanRemoval: true)]
     private Collection $sceances;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -38,11 +39,6 @@ class Programme
     {
         $this->sceances = new ArrayCollection();
     }
-
-
-   
-   
- 
 
     public function getId(): ?int
     {
@@ -57,19 +53,17 @@ class Programme
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-
         return $this;
     }
 
-    public function getUtilisateur(): ?utilisateur
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?utilisateur $utilisateur): static
+    public function setUtilisateur(?Utilisateur $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
-
         return $this;
     }
 
@@ -85,21 +79,18 @@ class Programme
     {
         if (!$this->sceances->contains($sceance)) {
             $this->sceances->add($sceance);
-            $sceance->setProgramme($this);
+            $sceance->setProgramme($this); // Mettre à jour la relation bidirectionnelle
         }
-
         return $this;
     }
 
     public function removeSceance(Sceance $sceance): static
     {
         if ($this->sceances->removeElement($sceance)) {
-            // set the owning side to null (unless already changed)
             if ($sceance->getProgramme() === $this) {
-                $sceance->setProgramme(null);
+                $sceance->setProgramme(null); // Mettre à jour la relation bidirectionnelle
             }
         }
-
         return $this;
     }
 
@@ -111,7 +102,6 @@ class Programme
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -123,12 +113,6 @@ class Programme
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
-
-   
-
-    
-
 }

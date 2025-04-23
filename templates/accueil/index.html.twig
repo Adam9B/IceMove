@@ -7,10 +7,53 @@
 
 
 
-<a href ="{{path('pageExo')}}"><button> {{Nom}}</button></a>
+<a href ="{{path('app_exercices')}}"><button> exercices</button></a>
+
+<a href ="{{path('app_sceance_index')}}"><button> sceance</button></a>
+
 <p>{{LeGoatDesEcheccs}}</p>
 
-<a href ="{{path('pageProgramme')}}"><button> Programme</button></a>
+
+ <!-- Bouton pour ouvrir le premier modal -->
+  <button id="openFirstModal">Programme / Séance</button>
+
+  <!-- Premier modal : Sélectionner -->
+  <div class="modal-overlay" id="firstModal">
+    <div class="modal-content">
+      <h2>Sélectionner</h2>
+      <div class="modal-buttons">
+        <button id="openSeanceModal">Séance</button>
+        <button id="openProgrammeModal">Programme</button>
+      </div>
+      <button class="close-button" id="closeFirstModal">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Deuxième modal : Séance -->
+  <div class="modal-overlay" id="seanceModal">
+    <div class="modal-content">
+      <h2>Séance</h2>
+      <div class="modal-buttons">
+        <a href ="{{path('app_sceance_index')}}"><button id="consulterSeance">Consulter</button></a>
+        <a href ="{{path('app_sceance_new')}}"><button id="creerSeance">Créer</button></a>
+      </div>
+      <button class="close-button" id="closeSeanceModal">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Troisième modal : Programme -->
+  <div class="modal-overlay" id="programmeModal">
+    <div class="modal-content">
+      <h2>Programme</h2>
+      <div class="modal-buttons">
+        <button id="consulterProgramme">Consulter</button>
+        <button id="creerProgramme">Créer</button>
+      </div>
+      <button class="close-button" id="closeProgrammeModal">Fermer</button>
+    </div>
+  </div>
+
+
 
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <!-- Les boutons "Se connecter" et "S'inscrire" ne seront pas affichés -->

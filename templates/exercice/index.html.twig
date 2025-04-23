@@ -1,0 +1,64 @@
+{# templates/exercice/index.html.twig #}
+
+
+{% block body %}
+    <h1>Liste des exercices</h1>
+    <a href="{{ path('app_accueil') }}"> retour accueil</a>
+    {# Filtres #}
+    <div class="filters">
+        <form method="GET" action="{{ path('app_exercices') }}">
+            <label for="bodyPart">Groupe musculaire :</label>
+            <select name="bodyPart" id="bodyPart" onchange="this.form.submit()">
+                <option value="">Tous</option>
+                {% for part in bodyParts %}
+                    <option value="{{ part }}" {{ selectedBodyPart == part ? 'selected' }}>{{ part }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="equipment">Équipement :</label>
+            <select name="equipment" id="equipment" onchange="this.form.submit()">
+                <option value="">Tout</option>
+                {% for equip in equipments %}
+                    <option value="{{ equip }}" {{ selectedEquipment == equip ? 'selected' }}>{{ equip }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="target">Cible :</label>
+            <select name="target" id="target" onchange="this.form.submit()">
+                <option value="">Tout</option>
+                {% for tgt in targets %}
+                    <option value="{{ tgt }}" {{ selectedTarget == tgt ? 'selected' }}>{{ tgt }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    {# Liste des exercices #}
+    <div class="exercices">
+        {% for exercice in pagination %}
+            <div class="exercice-card">
+                <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
+                <h3>{{ exercice.nom }}</h3>
+                <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
+                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p>
+                <p><strong>Cible :</strong> {{ exercice.target }}</p>
+
+                {# Instructions #}
+                <div class="instructions">
+                    <strong>Instructions :</strong>
+                    <ol>
+                        {% for instruction in exercice.instructions %}
+                            <li>{{ instruction }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <a href="#" class="btn">Ajouter à une séance</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {# Pagination #}
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
