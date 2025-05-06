@@ -25,11 +25,9 @@ class SceanceType extends AbstractType
                 'class' => Programme::class,
                 'choice_label' => 'id',
             ])
-            // ->add('exercices', EntityType::class, [
-            //     'class' => Exercice::class,
-            //     'choice_label' => 'id',
-            //     'multiple' => true,
-            // ])
+            
+            // Suppression du champ 'exercices' ici pour éviter le chargement de tous les exercices.
+            // À la place, tu pourras ajouter les exercices via un bouton ou une autre page (ex : /exercice/{id}/ajouter-a-seance).
         ;
     }
 

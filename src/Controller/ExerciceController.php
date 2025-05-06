@@ -1,15 +1,17 @@
 <?php
 
-// src/Controller/ExerciceController.php
-
 namespace App\Controller;
 
+use App\Entity\Exercice;
+use App\Entity\Sceance;
 use App\Repository\ExerciceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class ExerciceController extends AbstractController
 {
@@ -19,12 +21,10 @@ class ExerciceController extends AbstractController
         ExerciceRepository $exerciceRepository,
         PaginatorInterface $paginator
     ): Response {
-        // Récupérer les filtres depuis la requête GET
         $bodyPart = $request->query->get('bodyPart');
         $equipment = $request->query->get('equipment');
         $target = $request->query->get('target');
 
-        // Construire la requête pour récupérer les exercices
         $queryBuilder = $exerciceRepository->createQueryBuilder('e');
 
         if ($bodyPart) {
@@ -39,23 +39,17 @@ class ExerciceController extends AbstractController
             $queryBuilder->andWhere('e.target = :target')->setParameter('target', $target);
         }
 
-        // Pagination (10 exercices par page)
         $pagination = $paginator->paginate(
             $queryBuilder->getQuery(),
-            $request->query->getInt('page', 1), // Numéro de page (par défaut : 1)
-            10 // Nombre d'exercices par page
+            $request->query->getInt('page', 1),
+            10
         );
 
-        // Récupérer les options de filtre disponibles
         $bodyParts = $exerciceRepository->createQueryBuilder('e')
-            ->select('DISTINCT e.bodyPart')
-            ->getQuery()
-            ->getResult();
+            ->select('DISTINCT e.bodyPart')->getQuery()->getResult();
 
-        // Filtrer les équipements et cibles en fonction du groupe musculaire sélectionné
         $equipmentsQuery = $exerciceRepository->createQueryBuilder('e')
             ->select('DISTINCT e.equipment');
-
         $targetsQuery = $exerciceRepository->createQueryBuilder('e')
             ->select('DISTINCT e.target');
 
@@ -77,20 +71,47 @@ class ExerciceController extends AbstractController
             'targets' => array_column($targets, 'target'),
         ]);
     }
+
+    #[Route('/exercice/{id}/ajouter-a-seance', name: 'exercice_ajouter_a_seance')]
+    public function ajouterASceance(
+        int $id,
+        Request $request,
+        EntityManagerInterface $em,
+        Security $security
+    ): Response {
+        $exercice = $em->getRepository(Exercice::class)->find($id);
+        if (!$exercice) {
+            throw $this->createNotFoundException('Exercice non trouvé.');
+        }
+
+        $utilisateur = $security->getUser();
+        if (!$utilisateur) {
+            $this->addFlash('error', 'Vous devez être connecté pour faire cela.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $mesSceances = $em->getRepository(Sceance::class)->findBy([
+            'utilisateur' => $utilisateur
+        ]);
+
+        if ($request->isMethod('POST')) {
+            $sceanceId = $request->request->get('sceance_id');
+            $sceance = $em->getRepository(Sceance::class)->find($sceanceId);
+
+            if ($sceance && $sceance->getUtilisateur() === $utilisateur) {
+                $sceance->addExercice($exercice);
+                $em->flush();
+
+                $this->addFlash('success', 'Exercice ajouté à votre séance !');
+                return $this->redirectToRoute('app_sceance_show', ['id' => $sceance->getId()]);
+            }
+
+            $this->addFlash('error', 'Séance invalide.');
+        }
+
+        return $this->render('exercice/ajouter_a_seance.html.twig', [
+            'exercice' => $exercice,
+            'mesSceances' => $mesSceances,
+        ]);
+    }
 }
-
-
-
-
-
-// #[Route('/exercice', name: 'app_exercice')]
-//     public function index( ExerciceRepository $exerciceRepository): Response
-//     {
-
-//         $exercices = $exerciceRepository->findAll();
-
-
-//         return $this->render('exercice/index.html.twig', [
-//             'exercices' => $exercices,
-//         ]);
-//     }

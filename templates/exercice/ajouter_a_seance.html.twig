@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter l'exercice à une séance{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Ajouter l'exercice "{{ exercice.nom }}" à une de vos séances</h1>
+
+        {% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% if mesSceances is empty %}
+            <div class="alert alert-warning">
+                Vous n'avez pas encore créé de séance.
+                <a href="{{ path('app_sceance_new') }}">Créer une séance</a>
+            </div>
+        {% else %}
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="sceance_id" class="form-label">Sélectionnez une séance</label>
+                    <select name="sceance_id" id="sceance_id" class="form-select" required>
+                        <option value="" disabled selected>Choisir une séance</option>
+                        {% for sceance in mesSceances %}
+                            <option value="{{ sceance.id }}">{{ sceance.titre }} - {{ sceance.date|date('d/m/Y') }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Ajouter à la séance</button>
+            </form>
+        {% endif %}
+
+        <a href="{{ path('app_exercices') }}" class="btn btn-secondary mt-3">← Retour à la liste des exercices</a>
+    </div>
+{% endblock %}

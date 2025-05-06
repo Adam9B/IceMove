@@ -52,7 +52,9 @@
                         {% endfor %}
                     </ol>
                 </div>
-                <a href="#" class="btn">Ajouter à une séance</a>
+                <a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn btn-outline-success btn-sm">
+    Ajouter à une séance
+</a>
             </div>
         {% endfor %}
     </div>

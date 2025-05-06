@@ -1,4 +1,5 @@
 <?php
+
 // src/Command/ImportExercisesCommand.php
 
 namespace App\Command;
@@ -17,40 +18,51 @@ use Symfony\Component\Console\Attribute\AsCommand;
 )]
 class ImportExercisesCommand extends Command
 {
-    private $entityManager;
-    private $jsonFilePath;
+    private EntityManagerInterface $entityManager;
+    private string $jsonFilePath;
 
     public function __construct(EntityManagerInterface $entityManager, string $jsonFilePath)
     {
+        parent::__construct();
         $this->entityManager = $entityManager;
         $this->jsonFilePath = $jsonFilePath;
-        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $json = file_get_contents($this->jsonFilePath);
-        if ($json === false) {
-            $io->error('Impossible de lire le fichier JSON. Vérifiez le chemin.');
+        if (!file_exists($this->jsonFilePath)) {
+            $io->error("Le fichier JSON n'existe pas : {$this->jsonFilePath}");
             return Command::FAILURE;
         }
 
+        $json = file_get_contents($this->jsonFilePath);
         $data = json_decode($json, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $io->error('Erreur lors du décodage du fichier JSON.');
+
+        if (!is_array($data)) {
+            $io->error('Le fichier JSON est invalide ou vide.');
             return Command::FAILURE;
         }
+
+        $batchSize = 50;
+        $count = 0;
 
         foreach ($data as $item) {
-            // Utilisez 'idExo' comme clé dans le JSON
-        $idExo = $item['idExo'] ?? null;
+            $idExo = $item['idExo'] ?? null;
+            if (!$idExo) {
+                $name = $item['name'] ?? 'inconnu';
+                $io->warning("Exercice sans idExo (nom: $name) ignoré.");
+                continue;
+            }
 
-        if (!$idExo) {
-            $io->warning(sprintf("Le champ 'idExo' est manquant pour l'exercice '%s'. Ignoré.", $item['name'] ?? 'inconnu'));
-            continue; // Ignorer cet exercice
-        }
+            // Évite les doublons si déjà en BDD
+            $existing = $this->entityManager->getRepository(Exercice::class)
+                ->findOneBy(['idExo' => $idExo]);
+
+            if ($existing) {
+                continue;
+            }
 
             $exercice = new Exercice();
             $exercice->setNom($item['name']);
@@ -63,11 +75,19 @@ class ImportExercisesCommand extends Command
             $exercice->setGifUrl($item['gifUrl']);
 
             $this->entityManager->persist($exercice);
+
+            if (($count % $batchSize) === 0) {
+                $this->entityManager->flush();
+                $this->entityManager->clear(); // très important pour libérer la mémoire
+            }
+
+            $count++;
         }
 
         $this->entityManager->flush();
-        $io->success('Exercices importés avec succès !');
+        $io->success("$count exercices importés avec succès.");
         return Command::SUCCESS;
     }
 }
+
 ?>
