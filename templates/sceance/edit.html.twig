@@ -5,11 +5,30 @@
 {% block body %}
     <h1>Éditer la Séance</h1>
 
+    {# Formulaire principal de la séance #}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button class="btn btn-primary">Enregistrer</button>
-        
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('app_sceance_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <h3>Exercices de cette séance :</h3>
+
+    <ul>
+        {% for exercice in sceance.exercices %}
+            <li>
+                {{ exercice.nom }}
+                <form method="post" action="{{ path('app_sceance_remove_exercice', {
+                    sceanceId: sceance.id,
+                    exerciceId: exercice.id
+                }) }}" style="display:inline;" onsubmit="return confirm('Supprimer cet exercice ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('remove_exercice_' ~ exercice.id) }}">
+                    <button class="btn btn-danger btn-sm">Supprimer</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Aucun exercice pour cette séance.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_sceance_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
 {% endblock %}

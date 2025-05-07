@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\SceanceRepository;
+use App\Repository\ExerciceRepository;
 
 class SceanceController extends AbstractController
 {
@@ -85,6 +87,31 @@ class SceanceController extends AbstractController
             'sceance' => $sceance,
         ]);
     }
+
+    #[Route('/sceance/{sceanceId}/remove-exercice/{exerciceId}', name: 'app_sceance_remove_exercice', methods: ['POST'])]
+public function removeExerciceFromSceance(
+    int $sceanceId,
+    int $exerciceId,
+    SceanceRepository $sceanceRepository,
+    ExerciceRepository $exerciceRepository,
+    EntityManagerInterface $em,
+    Request $request
+): Response {
+    $sceance = $sceanceRepository->find($sceanceId);
+    $exercice = $exerciceRepository->find($exerciceId);
+
+    if (!$sceance || !$exercice) {
+        throw $this->createNotFoundException('Exercice ou séance introuvable');
+    }
+
+    // Vérification du token CSRF
+    if ($this->isCsrfTokenValid('remove_exercice_' . $exercice->getId(), $request->request->get('_token'))) {
+        $sceance->removeExercice($exercice);
+        $em->flush();
+    }
+
+    return $this->redirectToRoute('app_sceance_edit', ['id' => $sceanceId]);
+}
 
     // Route pour supprimer une séance
     #[Route('/sceance/{id}/delete', name: 'app_sceance_delete')]
