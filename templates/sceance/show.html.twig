@@ -11,7 +11,7 @@
     <h2>Exercices inclus :</h2>
     <ul>
         {% for exercice in sceance.exercices %} <!-- Correction : sceance.exercises -->
-            <li>{{ exercice.nom }}</li>
+            <li>{{ exercice.nom }} <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}"> {{exercice.target}} <a href="{{ path('exercice_show', { id: exercice.id, retour: 'sceance', sceanceId: sceance.id }) }}"> détail</a></li>
         {% else %}
             <li>Aucun exercice ajouté.</li>
         {% endfor %}

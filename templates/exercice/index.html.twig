@@ -39,20 +39,20 @@
             <div class="exercice-card">
                 <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
                 <h3>{{ exercice.nom }}</h3>
-                <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
-                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p>
+                {# <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
+                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p> #}
                 <p><strong>Cible :</strong> {{ exercice.target }}</p>
 
                 {# Instructions #}
-                <div class="instructions">
+                {# <div class="instructions">
                     <strong>Instructions :</strong>
                     <ol>
                         {% for instruction in exercice.instructions %}
                             <li>{{ instruction }}</li>
                         {% endfor %}
                     </ol>
-                </div>
-                <a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn btn-outline-success btn-sm">
+                </div> #}
+                <a href="{{ path('exercice_show', {id: exercice.id, retour: 'liste'}) }}">Détail</a> <br><a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn btn-outline-success btn-sm">
     Ajouter à une séance
 </a>
             </div>

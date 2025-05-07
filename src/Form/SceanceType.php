@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SceanceType extends AbstractType
 {
@@ -16,10 +17,20 @@ class SceanceType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('jour')
-            ->add('date', null, [
-                'widget' => 'single_text',
+            ->add('jour', ChoiceType::class, [
+                'choices'  => [
+                    'Lundi' => 'Lundi',
+                    'Mardi' => 'Mardi',
+                    'Mercredi' => 'Mercredi',
+                    'Jeudi' => 'Jeudi',
+                    'Vendredi' => 'Vendredi',
+                    'Samedi' => 'Samedi',
+                    'Dimanche' => 'Dimanche',
+                ],
+                'placeholder' => 'Choisissez un jour',
+                'label' => 'Jour de la séance',
             ])
+            
             ->add('description')
             ->add('programme', EntityType::class, [
                 'class' => Programme::class,

@@ -72,13 +72,26 @@ class ExerciceController extends AbstractController
         ]);
     }
 
+    #[Route('/exercice/{id}', name: 'exercice_show', methods: ['GET'])]
+    public function show(Exercice $exercice, Request $request): Response
+    {
+        $retour = $request->query->get('retour', 'liste');
+    $sceanceId = $request->query->get('sceanceId'); // attention : sceanceId
+
+    return $this->render('exercice/show.html.twig', [
+        'exercice' => $exercice,
+        'retour' => $retour,
+        'sceanceId' => $sceanceId,
+    ]);
+    }
+
     #[Route('/exercice/{id}/ajouter-a-seance', name: 'exercice_ajouter_a_seance')]
     public function ajouterASceance(
         int $id,
         Request $request,
         EntityManagerInterface $em,
         Security $security
-    ): Response {
+    ):  Response {
         $exercice = $em->getRepository(Exercice::class)->find($id);
         if (!$exercice) {
             throw $this->createNotFoundException('Exercice non trouvé.');

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SceanceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Sceance
 {
     #[ORM\Id]
@@ -22,8 +23,16 @@ class Sceance
     #[ORM\Column(length: 20)]
     private ?string $jour = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\PrePersist]
+    public function setDateOnCreate(): void
+    {
+        if ($this->date === null) {
+            $this->date = new \DateTime(); // Date du jour
+        }
+    }
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;

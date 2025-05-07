@@ -6,13 +6,13 @@
     <div class="container mt-4">
         <h1 class="mb-4">Ajouter l'exercice "{{ exercice.nom }}" à une de vos séances</h1>
 
-        {% for label, messages in app.flashes %}
+        {# {% for label, messages in app.flashes %}
             <div class="alert alert-{{ label }}">
                 {% for message in messages %}
                     {{ message }}
                 {% endfor %}
             </div>
-        {% endfor %}
+        {% endfor %} #}
 
         {% if mesSceances is empty %}
             <div class="alert alert-warning">
