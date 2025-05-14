@@ -25,10 +25,12 @@ class ProgrammeSceanceRepository extends ServiceEntityRepository
     public function findByProgrammeOrderedByJour($programmeId): array
     {
         return $this->createQueryBuilder('ps')
-            ->andWhere('ps.programme = :programmeId')
-            ->setParameter('programmeId', $programmeId)
-            ->orderBy('ps.jour', 'ASC')
-            ->getQuery()
-            ->getResult();
+        ->innerJoin('ps.sceance', 's')
+        ->addSelect('s')
+        ->andWhere('ps.programme = :programmeId')
+        ->setParameter('programmeId', $programmeId)
+        ->orderBy('s.date', 'ASC') // ou un autre champ comme 'titre'
+        ->getQuery()
+        ->getResult();
     }
 }

@@ -20,26 +20,11 @@ class Sceance
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $jour = null;
-
     #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\PrePersist]
-    public function setDateOnCreate(): void
-    {
-        if ($this->date === null) {
-            $this->date = new \DateTime(); // Date du jour
-        }
-    }
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\ManyToOne(inversedBy: 'sceances')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Programme $programme = null;
 
     #[ORM\ManyToOne(inversedBy: 'sceances')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,16 +33,25 @@ class Sceance
     #[ORM\ManyToMany(targetEntity: Exercice::class, inversedBy: 'sceances')]
     private Collection $exercices;
 
-    /**
-     * Relation OneToMany avec RepetitionSerie.
-     */
-    #[ORM\OneToMany(mappedBy: 'sceance', targetEntity: RepetitionSerie::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'sceance', targetEntity: RepetitionSerie::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $repetitionSeries;
+
+    #[ORM\OneToMany(mappedBy: 'sceance', targetEntity: ProgrammeSceance::class, orphanRemoval: true)]
+    private Collection $programmeSceances;
 
     public function __construct()
     {
         $this->exercices = new ArrayCollection();
         $this->repetitionSeries = new ArrayCollection();
+        $this->programmeSceances = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setDateOnCreate(): void
+    {
+        if ($this->date === null) {
+            $this->date = new \DateTime(); // Date du jour par défaut
+        }
     }
 
     public function getId(): ?int
@@ -73,17 +67,6 @@ class Sceance
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-        return $this;
-    }
-
-    public function getJour(): ?string
-    {
-        return $this->jour;
-    }
-
-    public function setJour(string $jour): static
-    {
-        $this->jour = $jour;
         return $this;
     }
 
@@ -109,17 +92,6 @@ class Sceance
         return $this;
     }
 
-    public function getProgramme(): ?Programme
-    {
-        return $this->programme;
-    }
-
-    public function setProgramme(?Programme $programme): static
-    {
-        $this->programme = $programme;
-        return $this;
-    }
-
     public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
@@ -142,7 +114,7 @@ class Sceance
     public function addExercice(Exercice $exercice): static
     {
         if (!$this->exercices->contains($exercice)) {
-            $this->exercices[] = $exercice;
+            $this->exercices->add($exercice);
             $exercice->addSceance($this);
         }
         return $this;
@@ -168,7 +140,7 @@ class Sceance
     {
         if (!$this->repetitionSeries->contains($repetitionSeries)) {
             $this->repetitionSeries->add($repetitionSeries);
-            $repetitionSeries->setSceance($this); // Mettre à jour la relation inverse
+            $repetitionSeries->setSceance($this);
         }
         return $this;
     }
@@ -177,7 +149,34 @@ class Sceance
     {
         if ($this->repetitionSeries->removeElement($repetitionSeries)) {
             if ($repetitionSeries->getSceance() === $this) {
-                $repetitionSeries->setSceance(null); // Mettre à jour la relation inverse
+                $repetitionSeries->setSceance(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProgrammeSceance>
+     */
+    public function getProgrammeSceances(): Collection
+    {
+        return $this->programmeSceances;
+    }
+
+    public function addProgrammeSceance(ProgrammeSceance $programmeSceance): static
+    {
+        if (!$this->programmeSceances->contains($programmeSceance)) {
+            $this->programmeSceances->add($programmeSceance);
+            $programmeSceance->setSceance($this);
+        }
+        return $this;
+    }
+
+    public function removeProgrammeSceance(ProgrammeSceance $programmeSceance): static
+    {
+        if ($this->programmeSceances->removeElement($programmeSceance)) {
+            if ($programmeSceance->getSceance() === $this) {
+                $programmeSceance->setSceance(null);
             }
         }
         return $this;

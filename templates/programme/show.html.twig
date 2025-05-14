@@ -3,33 +3,49 @@
 {% block title %}Détail du Programme{% endblock %}
 
 {% block body %}
-    <h1>{{ programme.titre }}</h1>
+    <div class="container mt-4">
+        <h1 class="mb-3">{{ programme.titre }}</h1>
 
-    <p><strong>Description :</strong> {{ programme.description }}</p>
+        <p><strong>Description :</strong> {{ programme.description }}</p>
 
-    <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
-    <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <div class="mb-3">
+            <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
+            <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
-    <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}" class="d-inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
-        <button class="btn btn-danger">Supprimer</button>
-    </form>
+            <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
+                  class="d-inline"
+                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+                <button class="btn btn-danger">Supprimer</button>
+            </form>
+        </div>
 
-    <hr>
+        <hr>
 
-    <h2>Séances associées</h2>
-    {% if programme.sceances is empty %}
-        <p>Aucune séance pour ce programme.</p>
-    {% else %}
-        <ul>
-            {% for sceance in programme.sceances %}
-                <li>
-                    <strong>{{ sceance.titre }}</strong> - {{ sceance.jour }}
-                    <a href="{{ path('app_sceance_show', {id: sceance.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        <h2>Séances associées</h2>
 
-    <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}">Ajouter une séance</a>
+        {% if programme.programmeSceances is empty %}
+            <p>Aucune séance pour ce programme.</p>
+        {% else %}
+            <ul class="list-group">
+                {% for programmeSceance in programme.programmeSceances %}
+                    {% set sceance = programmeSceance.sceance %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ sceance.titre }}</strong>
+                            {% if programmeSceance.jour %}
+                                — <em>{{ programmeSceance.jour }}</em>
+                            {% endif %}
+                            {% if sceance.date %}
+                                ({{ sceance.date|date('d/m/Y') }})
+                            {% endif %}
+                        </div>
+                        <a href="{{ path('app_sceance_show', {id: sceance.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}" class="btn btn-success mt-4">Ajouter une séance</a>
+    </div>
 {% endblock %}

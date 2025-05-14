@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ProgrammeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgrammeRepository::class)]
@@ -19,24 +18,19 @@ class Programme
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'programmes')]
-    #[ORM\JoinColumn(nullable: false)] // L'utilisateur est obligatoire
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\ManyToOne(inversedBy: 'programmes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    /**
-     * @var Collection<int, Sceance>
-     */
-    #[ORM\OneToMany(mappedBy: 'programme', targetEntity: Sceance::class, orphanRemoval: true)]
-    private Collection $sceances;
-
-   
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    #[ORM\OneToMany(mappedBy: 'programme', targetEntity: ProgrammeSceance::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $programmeSceances;
 
     public function __construct()
     {
-        $this->sceances = new ArrayCollection();
+        $this->programmeSceances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,9 +43,20 @@ class Programme
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): self
     {
         $this->titre = $titre;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
         return $this;
     }
 
@@ -60,49 +65,39 @@ class Programme
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): static
+    public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
         return $this;
     }
 
     /**
-     * @return Collection<int, Sceance>
+     * @return Collection<int, ProgrammeSceance>
      */
-    public function getSceances(): Collection
+    public function getProgrammeSceances(): Collection
     {
-        return $this->sceances;
+        return $this->programmeSceances;
     }
 
-    public function addSceance(Sceance $sceance): static
+    public function addProgrammeSceance(ProgrammeSceance $programmeSceance): self
     {
-        if (!$this->sceances->contains($sceance)) {
-            $this->sceances->add($sceance);
-            $sceance->setProgramme($this); // Mettre à jour la relation bidirectionnelle
+        if (!$this->programmeSceances->contains($programmeSceance)) {
+            $this->programmeSceances[] = $programmeSceance;
+            $programmeSceance->setProgramme($this);
         }
+
         return $this;
     }
 
-    public function removeSceance(Sceance $sceance): static
+    public function removeProgrammeSceance(ProgrammeSceance $programmeSceance): self
     {
-        if ($this->sceances->removeElement($sceance)) {
-            if ($sceance->getProgramme() === $this) {
-                $sceance->setProgramme(null); // Mettre à jour la relation bidirectionnelle
+        if ($this->programmeSceances->removeElement($programmeSceance)) {
+            // Set the owning side to null (unless already changed)
+            if ($programmeSceance->getProgramme() === $this) {
+                $programmeSceance->setProgramme(null);
             }
         }
-        return $this;
-    }
 
-    
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
         return $this;
     }
 }
