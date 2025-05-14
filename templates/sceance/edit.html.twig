@@ -8,12 +8,13 @@
     {# Formulaire principal de la séance #}
     {{ form_start(form) }}
         {{ form_widget(form) }}
+         
+
         <button type="submit" class="btn btn-primary">Enregistrer</button>
     {{ form_end(form) }}
 
-    <h3>Exercices de cette séance :</h3>
-
-    <ul>
+   <ul> 
+         <h3>Exercices de cette séance :</h3>
         {% for exercice in sceance.exercices %}
             <li>
                 {{ exercice.nom }}
@@ -29,6 +30,8 @@
             <li>Aucun exercice pour cette séance.</li>
         {% endfor %}
     </ul>
+
+   
 
     <a href="{{ path('app_sceance_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
 {% endblock %}

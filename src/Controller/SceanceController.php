@@ -40,6 +40,9 @@ class SceanceController extends AbstractController
             $this->addFlash('success', 'Séance créée avec succès !');
             return $this->redirectToRoute('app_sceance_show', ['id' => $sceance->getId()]);
         }
+        $form = $this->createForm(SceanceType::class, $sceance, [
+            'utilisateur' => $utilisateur, // 👈 on passe le user ici
+        ]);
 
         return $this->render('sceance/new.html.twig', [
             'form' => $form->createView(),
@@ -81,6 +84,9 @@ class SceanceController extends AbstractController
             $this->addFlash('success', 'Séance mise à jour avec succès !');
             return $this->redirectToRoute('app_sceance_show', ['id' => $sceance->getId()]);
         }
+        $form = $this->createForm(SceanceType::class, $sceance, [
+            'utilisateur' => $utilisateur, // 👈 on passe le user ici
+        ]);
 
         return $this->render('sceance/edit.html.twig', [
             'form' => $form->createView(),

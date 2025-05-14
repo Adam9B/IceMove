@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Séance au Programme{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une Séance au Programme : {{ programme.titre }}</h1>
+
+    {% if sceances is empty %}
+        <p>Aucune séance disponible à ajouter.</p>
+    {% else %}
+        <form method="post">
+            <div class="form-group">
+                <label for="sceance_id">Choisir une séance :</label>
+                <select name="sceance_id" id="sceance_id" class="form-control">
+                    {% for sceance in sceances %}
+                        <option value="{{ sceance.id }}">{{ sceance.titre }} ({{ sceance.jour }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-success mt-2">Ajouter au programme</button>
+        </form>
+    {% endif %}
+
+    <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btn btn-secondary mt-3">Retour</a>
+{% endblock %}
+
+{# une seance crée sur compte n.1 va dans le programme du compte n.2 #}

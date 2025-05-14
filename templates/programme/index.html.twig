@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Programmes{% endblock %}
+
+{% block body %}
+    <h1>Mes Programmes</h1>
+
+    <a href="{{ path('app_programme_new') }}" class="btn btn-success mb-3">Créer un nouveau programme</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for programme in programmes %}
+            <tr>
+                <td>{{ programme.titre }}</td>
+                <td>{{ programme.description }}</td>
+                <td>
+                    <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                    <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary btn-sm">Éditer</a>
+
+                    <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer ce programme ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="3">Aucun programme trouvé.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href ="{{ path('app_accueil')}}"> Retour accueil</a>
+{% endblock %}

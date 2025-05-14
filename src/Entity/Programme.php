@@ -29,8 +29,7 @@ class Programme
     #[ORM\OneToMany(mappedBy: 'programme', targetEntity: Sceance::class, orphanRemoval: true)]
     private Collection $sceances;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+   
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -94,16 +93,7 @@ class Programme
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
-        return $this;
-    }
+    
 
     public function getDescription(): ?string
     {

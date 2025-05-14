@@ -2,25 +2,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ sceance.titre }}</h1> <!-- Correction : sceance avec un 'c' -->
+	<h1>{{ sceance.titre }}</h1>
+	<!-- Correction : sceance avec un 'c' -->
 
-    <p><strong>Jour :</strong> {{ sceance.jour }}</p>
-    <p><strong>Date :</strong> {{ sceance.date|date('d/m/Y') }}</p>
-    <p><strong>Description :</strong> {{ sceance.description|default('Aucune description.') }}</p>
+	<p>
+		<strong>Jour :</strong>
+		{{ sceance.jour }}</p>
+	<p>
+		<strong>Date :</strong>
+		{{ sceance.date|date('d/m/Y') }}</p>
+	<p>
+		<strong>Description :</strong>
+		{{ sceance.description|default('Aucune description.') }}</p>
 
-    <h2>Exercices inclus :</h2>
-    <ul>
-        {% for exercice in sceance.exercices %} <!-- Correction : sceance.exercises -->
-            <li>{{ exercice.nom }} <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}"> {{exercice.target}} <a href="{{ path('exercice_show', { id: exercice.id, retour: 'sceance', sceanceId: sceance.id }) }}"> détail</a></li>
-        {% else %}
-            <li>Aucun exercice ajouté.</li>
-        {% endfor %}
-    </ul>
+	<h2>Exercices :</h2>
+	<ul>
+		{% for exercice in sceance.exercices %}
+			<!-- Correction : sceance.exercises -->
+			<li>{{ exercice.nom }}
+				<img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
+				{{exercice.target}}
+				<a href="{{ path('exercice_show', { id: exercice.id, retour: 'sceance', sceanceId: sceance.id }) }}">
+					détail</a>
+			</li>
+		{% else %}
+			<li>Aucun exercice ajouté.</li>
+		{% endfor %}
+	</ul>
 
-     <a href="{{ path('app_accueil') }}"> retour accueil</a>
-    <a href="{{ path('app_sceance_index') }}"> retour à la liste des séances</a>
-    <a href="{{ path('app_sceance_edit', {'id': sceance.id}) }}">Modifier</a> <!-- Correction : 'sceance' au lieu de 'sceance' -->
-    <form method="POST" action="{{ path('app_sceance_delete', {'id': sceance.id}) }}" style="display:inline;"> <!-- Correction : 'sceance' au lieu de 'sceance' -->
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sceance.id) }}">
-        <button type="submit" class="btn btn-danger">Supprimer</button>
-{% endblock %}
+	<a href="{{ path('app_accueil') }}">
+		retour accueil</a>
+	<a href="{{ path('app_sceance_index') }}">
+		retour à la liste des séances</a>
+	<a href="{{ path('app_sceance_edit', {'id': sceance.id}) }}">Modifier</a>
+	<!-- Correction : 'sceance' au lieu de 'sceance' -->
+	<form
+		method="POST" action="{{ path('app_sceance_delete', {'id': sceance.id}) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette seance ?');" style="display:inline;">
+		<!-- Correction : 'sceance' au lieu de 'sceance' -->
+		<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sceance.id) }}">
+		<button type="submit" class="btn btn-danger">Supprimer</button>
+        </form>
+
+       
+	{% endblock %}
