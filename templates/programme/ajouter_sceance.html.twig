@@ -9,16 +9,32 @@
         <p>Aucune séance disponible à ajouter.</p>
     {% else %}
         <form method="post">
-            <div class="form-group">
-                <label for="sceance_id">Choisir une séance :</label>
-                <select name="sceance_id" id="sceance_id" class="form-control">
-                    {% for sceance in sceances %}
-                        <option value="{{ sceance.id }}">{{ sceance.titre }} ({{ sceance.jour }})</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button class="btn btn-success mt-2">Ajouter au programme</button>
-        </form>
+    <div class="form-group">
+        <label for="sceance_id">Choisir une séance :</label>
+        <select name="sceance_id" id="sceance_id" class="form-control">
+            {% for sceance in sceances %}
+                <option value="{{ sceance.id }}">{{ sceance.titre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group mt-2">
+    <label for="jour">Jour :</label>
+    <select name="jour" id="jour" class="form-control">
+        <option value="">-- Choisissez un jour --</option>
+        <option value="Lundi">Lundi</option>
+        <option value="Mardi">Mardi</option>
+        <option value="Mercredi">Mercredi</option>
+        <option value="Jeudi">Jeudi</option>
+        <option value="Vendredi">Vendredi</option>
+        <option value="Samedi">Samedi</option>
+        <option value="Dimanche">Dimanche</option>
+    </select>
+</div>
+
+    <button class="btn btn-success mt-3">Ajouter au programme</button>
+</form>
+
     {% endif %}
 
     <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btn btn-secondary mt-3">Retour</a>

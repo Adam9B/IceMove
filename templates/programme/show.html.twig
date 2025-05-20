@@ -3,49 +3,61 @@
 {% block title %}Détail du Programme{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h1 class="mb-3">{{ programme.titre }}</h1>
+<div class="container mt-4">
+    <h1 class="mb-3">{{ programme.titre }}</h1>
 
-        <p><strong>Description :</strong> {{ programme.description }}</p>
+    <p><strong>Description :</strong> {{ programme.description }}</p>
 
-        <div class="mb-3">
-            <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
-            <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <div class="mb-3">
+        <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
-            <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
-                  class="d-inline"
-                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
-                <button class="btn btn-danger">Supprimer</button>
-            </form>
-        </div>
-
-        <hr>
-
-        <h2>Séances associées</h2>
-
-        {% if programme.programmeSceances is empty %}
-            <p>Aucune séance pour ce programme.</p>
-        {% else %}
-            <ul class="list-group">
-                {% for programmeSceance in programme.programmeSceances %}
-                    {% set sceance = programmeSceance.sceance %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>{{ sceance.titre }}</strong>
-                            {% if programmeSceance.jour %}
-                                — <em>{{ programmeSceance.jour }}</em>
-                            {% endif %}
-                            {% if sceance.date %}
-                                ({{ sceance.date|date('d/m/Y') }})
-                            {% endif %}
-                        </div>
-                        <a href="{{ path('app_sceance_show', {id: sceance.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}" class="btn btn-success mt-4">Ajouter une séance</a>
+        <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
+              class="d-inline"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+        </form>
     </div>
+
+    <hr>
+
+    <h2>Séances associées</h2>
+
+    {% set joursOrdre = {
+        'Lundi': 0,
+        'Mardi': 1,
+        'Mercredi': 2,
+        'Jeudi': 3,
+        'Vendredi': 4,
+        'Samedi': 5,
+        'Dimanche': 6,
+        'Non défini': 999
+    } %}
+
+    {% if programme.programmeSceances is not empty %}
+        <ul class="list-group">
+            {% for programmeSceance in programme.programmeSceances|sort((a, b) =>
+                attribute(joursOrdre, (a.jour|default('Non défini')|capitalize)) <=> attribute(joursOrdre, (b.jour|default('Non défini')|capitalize)))
+            %}
+                {% set sceance = programmeSceance.sceance %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ sceance.titre }}</strong>
+                        {% if programmeSceance.jour %}
+                            — <em>{{ programmeSceance.jour|capitalize }}</em>
+                        {% else %}
+                            — <em>Non défini</em>
+                        {% endif %}
+                    </div>
+                    <a href="{{ path('app_sceance_show', {id: sceance.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune séance pour ce programme.</p>
+    {% endif %}
+
+    <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}" class="btn btn-success mt-4">Ajouter une séance</a>
+</div>
 {% endblock %}

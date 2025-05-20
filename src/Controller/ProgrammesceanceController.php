@@ -15,11 +15,12 @@ public function show(
     Programme $programme,
     ProgrammeSceanceRepository $programmeSceanceRepository
 ): Response {
-    $sceancesAssociees = $programmeSceanceRepository->findSceancesByProgramme($programme->getId());
+    $programmeSceances = $programmeSceanceRepository->findByProgrammeOrderedByJour($programme);
+
 
     return $this->render('programme/show.html.twig', [
         'programme' => $programme,
-        'sceancesAssociees' => $sceancesAssociees,
+        'sceancesAssociees' => $programmeSceances,
     ]);
 }
 

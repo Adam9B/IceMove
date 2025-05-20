@@ -1,14 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Éditer le Programme{% endblock %}
+{% block title %}Modifier le Programme{% endblock %}
 
 {% block body %}
+<div class="container mt-4">
     <h1>Modifier le Programme</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary mt-3">Mettre à jour</button>
-    {{ form_end(form) }}
+    <form method="post">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" id="titre" name="titre" class="form-control" value="{{ programme.titre }}" required>
+        </div>
 
-    <a href="{{ path('app_programme_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="3">{{ programme.description }}</textarea>
+        </div>
+
+        <h4 class="mt-4">Séances associées</h4>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Séance</th>
+                    <th>Jour</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ps in programme.programmeSceances %}
+                    <tr>
+                        <td>{{ ps.sceance.titre }}</td>
+                        <td>
+                            <select name="jour[{{ ps.id }}]" class="form-select">
+                                {% for jour in jourOptions %}
+                                    <option value="{{ jour }}" {% if ps.jour == jour %}selected{% endif %}>{{ jour }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="delete[{{ ps.id }}]">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

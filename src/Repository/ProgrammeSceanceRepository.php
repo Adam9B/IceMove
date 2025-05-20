@@ -24,6 +24,8 @@ class ProgrammeSceanceRepository extends ServiceEntityRepository
     // Exemple de méthode personnalisée
     public function findByProgrammeOrderedByJour($programmeId): array
     {
+        
+
         return $this->createQueryBuilder('ps')
         ->innerJoin('ps.sceance', 's')
         ->addSelect('s')
