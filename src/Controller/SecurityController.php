@@ -16,6 +16,9 @@ use Symfony\Component\Mime\Email;
 
 class SecurityController extends AbstractController
 {
+
+    
+    
     // Route pour la page de connexion
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response

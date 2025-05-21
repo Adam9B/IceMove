@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+
+use App\Entity\Categorie;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +26,7 @@ class Article
     private ?\DateTimeInterface $date = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?utilisateur $utilisateur = null;
+    private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'article')]
     private ?Categorie $categorie = null;

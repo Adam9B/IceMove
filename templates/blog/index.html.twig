@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur le blog</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2>Créer un nouvel article</h2>
+        {{ form_start(form) }}
+            {{ form_row(form.titre) }}
+            {{ form_row(form.contenu) }}
+            <button class="btn btn-primary">Publier</button>
+        {{ form_end(form) }}
+        <hr>
+    {% endif %}
+
+    <h2>Articles récents</h2>
+    {% for article in articles %}
+        <div style="margin-bottom: 2rem;">
+            <h3><a href="{{ path('blog_show', { id: article.id }) }}">{{ article.titre }}</a></h3>
+            <p><small>Publié le {{ article.date|date('d/m/Y H:i') }}</small></p>
+            <p>{{ article.contenu|slice(0, 200) ~ '...' }}</p>
+        </div>
+    {% else %}
+        <p>Aucun article publié pour le moment.</p>
+    {% endfor %}
+{% endblock %}

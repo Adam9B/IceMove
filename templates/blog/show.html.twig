@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.titre }}{% endblock %}
+
+{% block body %}
+    <h1>{{ article.titre }}</h1>
+    <p><small>Publié le {{ article.date|date('d/m/Y H:i') }}</small></p>
+    <div>
+        {{ article.contenu|nl2br }}
+    </div>
+    <br>
+    <a href="{{ path('blog_index') }}">← Retour à la liste</a>
+{% endblock %}
