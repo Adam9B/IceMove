@@ -17,7 +17,9 @@
 
 <p>{{LeGoatDesEcheccs}}</p>
 
-
+{% if is_granted('ROLE_ADMIN') %}
+    <a href = "{{ path('admin')}}"><button> admin</button></a>
+{% endif %}
  <!-- Bouton pour ouvrir le premier modal -->
   <button id="openFirstModal">Programme / Séance</button>
 

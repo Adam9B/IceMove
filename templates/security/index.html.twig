@@ -1,0 +1,16 @@
+{# templates/security/login.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Connexion</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.message }}</div>
+    {% endif %}
+    <form action="{{ path('app_login_check') }}" method="post">
+        <input type="email" name="_username" placeholder="Email" required />
+        <input type="password" name="_password" placeholder="Mot de passe" required />
+        <button type="submit">Se connecter</button>
+    </form>
+    <a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
+{% endblock %}

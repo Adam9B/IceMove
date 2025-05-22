@@ -21,3 +21,7 @@ services:
         arguments:
             $jsonFilePath: '%json_file_path%'
         tags: ['console.command']
+
+    App\Security\AppAuthenticator:
+        autowire: true
+        autoconfigure: true
