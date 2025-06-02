@@ -43,6 +43,11 @@ class ProgrammeController extends AbstractController
     {
         $programme = new Programme();
         $programme->setUtilisateur($this->getUtilisateur());
+        $utilisateur = $this->getUtilisateur();
+        if (!$utilisateur) {
+            $this->addFlash('error', 'Vous devez être connecté');
+            return $this->redirectToRoute('app_login');
+        }
 
         $form = $this->createForm(ProgrammeType::class, $programme);
         $form->handleRequest($request);

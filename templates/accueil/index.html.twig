@@ -1,76 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TEST DE l'accueil {% endblock %}
+
+{% block title %}TEST DE l'accueil
+{% endblock %}
 
 {% block body %}
 
 
+	<header>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<!-- Les boutons "Se connecter" et "S'inscrire" ne seront pas affichés -->
+			<div class="connection flex-column flex-sm-row">
+				<a href="{{ path('app_logout') }}" class="lienAccueil">
+					<button class='buttonAccueil btnco'>Se déconnecter</button>
+				</a>
+			</div>
+		{% else %}
+			<div class="connection flex-column flex-sm-row">
+				<a href="{{ path('app_login') }}" class="lienAccueil">
+					<button class='buttonAccueil btnco'>Se connecter</button>
+				</a>
+				<a href="{{ path('app_register') }}" class="lienAccueil">
+					<button class='buttonAccueil btnco'>S'inscrire</button>
+				</a>
+			</div>
+		{% endif %}
+	</header>
+
+	<section>
+
+		<div class="divlogo">
+			<img src="{{ asset('img/finalLogo.jpg') }}" alt="Description" class="img-fluid mx-auto  logo">
+		</div>
 
 
-<a href ="{{path('app_exercices')}}"><button> exercices</button></a>
+		{% if is_granted('ROLE_ADMIN') %}
+			<p>{{LeGoatDesEcheccs}}</p>
+			<a href="{{ path('admin')}}">
+				<button>
+					admin</button>
+			</a>
+			<a href="{{ path('app_sceance_index') }}" class="">
+				<button>Séance</button>
+			</a>
+			<a href="{{ path('app_programme_index') }}" class="">
+				<button>Programme</button>
+			</a>
+		{% endif %}
 
-<a href ="{{path('app_sceance_index')}}"><button> sceance</button></a>
+    <article class="grpButtonAccueil">
+<div>
+		<a href="{{ path('app_exercices') }}" class="lienAccueil" style="text-decoration:none;">
+			<button class="buttonAccueil">
+				Exercice
+				<img src="{{ asset('img/svg/dumbbell-solid-white.svg') }}" alt="Exercice" class="iconAccueil">
+			</button>
+		</a>
+</div>
+		<div>
+			<!-- Bouton pour ouvrir le premier modal -->
+			<button id="openFirstModal" class="buttonAccueil">Programme / Séance<img src="{{ asset('img/svg/calendar-solid.svg') }}" alt="seanceprogramme" class="iconAccueil"></button>
 
-<a href ="{{path('app_programme_index')}}"><button> programme</button></a>
+			<!-- Premier modal : Sélectionner -->
+			<div class="modal-overlay" id="firstModal">
+				<div class="modal-content">
+					<h2>Sélectionner</h2>
+					<div class="modal-buttons">
+						<button id="openSeanceModal">Séance</button>
+						<button id="openProgrammeModal">Programme</button>
+					</div>
+					<button class="close-button" id="closeFirstModal">Fermer</button>
+				</div>
+			</div>
 
-<a href ="{{path('blog_index')}}"><button> blog</button></a>
+			<!-- Deuxième modal : Séance -->
+			<div class="modal-overlay" id="seanceModal">
+				<div class="modal-content">
+					<h2>Séance</h2>
+					<div class="modal-buttons">
+						<a href="{{path('app_sceance_index')}}">
+							<button id="consulterSeance">Consulter</button>
+						</a>
+						<a href="{{path('app_sceance_new')}}">
+							<button id="creerSeance">Créer</button>
+						</a>
+					</div>
+					<button class="close-button" id="closeSeanceModal">Fermer</button>
+				</div>
+			</div>
 
-<p>{{LeGoatDesEcheccs}}</p>
+			<!-- Troisième modal : Programme -->
+			<div class="modal-overlay" id="programmeModal">
+				<div class="modal-content">
+					<h2>Programme</h2>
+					<div class="modal-buttons">
+						<a href="{{path('app_programme_index')}}">
+							<button id="consulterProgramme">Consulter</button>
+						</a>
+						<a href="{{path('app_programme_new')}}">
+							<button id="creerProgramme">Créer</button>
+						</a>
+					</div>
+					<button class="close-button" id="closeProgrammeModal">Fermer</button>
+				</div>
+			</div>
+		</div>
 
-{% if is_granted('ROLE_ADMIN') %}
-    <a href = "{{ path('admin')}}"><button> admin</button></a>
-{% endif %}
- <!-- Bouton pour ouvrir le premier modal -->
-  <button id="openFirstModal">Programme / Séance</button>
-
-  <!-- Premier modal : Sélectionner -->
-  <div class="modal-overlay" id="firstModal">
-    <div class="modal-content">
-      <h2>Sélectionner</h2>
-      <div class="modal-buttons">
-        <button id="openSeanceModal">Séance</button>
-        <button id="openProgrammeModal">Programme</button>
-      </div>
-      <button class="close-button" id="closeFirstModal">Fermer</button>
-    </div>
-  </div>
-
-  <!-- Deuxième modal : Séance -->
-  <div class="modal-overlay" id="seanceModal">
-    <div class="modal-content">
-      <h2>Séance</h2>
-      <div class="modal-buttons">
-        <a href ="{{path('app_sceance_index')}}"><button id="consulterSeance">Consulter</button></a>
-        <a href ="{{path('app_sceance_new')}}"><button id="creerSeance">Créer</button></a>
-      </div>
-      <button class="close-button" id="closeSeanceModal">Fermer</button>
-    </div>
-  </div>
-
-  <!-- Troisième modal : Programme -->
-  <div class="modal-overlay" id="programmeModal">
-    <div class="modal-content">
-      <h2>Programme</h2>
-      <div class="modal-buttons">
-        <button id="consulterProgramme">Consulter</button>
-        <button id="creerProgramme">Créer</button>
-      </div>
-      <button class="close-button" id="closeProgrammeModal">Fermer</button>
-    </div>
-  </div>
-
-
-
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    <!-- Les boutons "Se connecter" et "S'inscrire" ne seront pas affichés -->
-
-    <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
-{% else %}
-    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
-    <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
-{% endif %}
+    <div>
+		<a href="{{ path('blog_index') }}" class="lienAccueil">
+			<button class="buttonAccueil">
+				Blog
+				<img src="{{ asset('img/svg/blog-solid.svg') }}" alt="Blog" class="iconAccueil">
+			</button>
+		</a>
+</div>
+</article>
+		{# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			    <!-- Les boutons "Se connecter" et "S'inscrire" ne seront pas affichés -->
+			
+			    <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
+			{% else %}
+			    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+			    <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
+			{% endif %} #}
 
 
-{# <a href ="{{path('app_login')}}"><button> se connecter</button></a> #}
-
+		{# <a href ="{{path('app_login')}}"><button> se connecter</button></a> #}
+	</section>
 {% endblock %}

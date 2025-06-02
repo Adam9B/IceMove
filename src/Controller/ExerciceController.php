@@ -42,7 +42,7 @@ class ExerciceController extends AbstractController
         $pagination = $paginator->paginate(
             $queryBuilder->getQuery(),
             $request->query->getInt('page', 1),
-            10
+            9
         );
 
         $bodyParts = $exerciceRepository->createQueryBuilder('e')

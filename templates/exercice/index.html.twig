@@ -1,3 +1,5 @@
+{% extends 'base.html.twig' %}
+
 {# templates/exercice/index.html.twig #}
 
 
@@ -38,7 +40,7 @@
         {% for exercice in pagination %}
             <div class="exercice-card">
                 <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
-                <h3>{{ exercice.nom }}</h3>
+                <p style="font-size:18px;">{{ exercice.nom }}</p>
                 {# <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
                 <p><strong>Équipement :</strong> {{ exercice.equipment }}</p> #}
                 <p><strong>Cible :</strong> {{ exercice.target }}</p>
@@ -60,7 +62,7 @@
     </div>
 
     {# Pagination #}
-    <div class="pagination">
+    <div class="pagination d-flex justify-content-center"  style="text-align: center; font-size: 25px; color: black; text-decoration: none;">
         {{ knp_pagination_render(pagination) }}
     </div>
 {% endblock %}
