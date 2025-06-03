@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ exercice.nom }}</h1>
+<div class="exercice-detail-page">
+
+    <h1 class="titreH1">{{ exercice.nom }}</h1>
     <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
     <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
     <p><strong>Équipement :</strong> {{ exercice.equipment }}</p>
@@ -13,7 +15,7 @@
             <li>{{ instruction }}</li>
         {% endfor %}
     </ol>
-<a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn btn-outline-success btn-sm">
+<a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn-action ">
     Ajouter à une séance
 </a><br><br>
     {% if retour == 'sceance' and sceanceId %}
@@ -21,5 +23,5 @@
 {% else %}
     <a href="{{ path('app_exercices') }}">← Retour à la liste des exercices</a>
 {% endif %}
-  
+  </div>
 {% endblock %}

@@ -132,3 +132,52 @@ if (programmeModal) {
 
 // Appel initial + à chaque navigation Turbo
 document.addEventListener('turbo:load', initApp);
+
+
+function exoPage() {
+    // Retire toutes les classes "show" existantes pour permettre une nouvelle animation
+    document.querySelectorAll(".exercice-card.show").forEach(el => {
+        el.classList.remove("show");
+    });
+
+    // On sélectionne tous les éléments avec la classe "hidden"
+    const elements = document.querySelectorAll(".exercice-card.hidden");
+
+    // On arrête les anciens observers pour éviter les doublons
+    if (window.exoObserver) {
+        window.exoObserver.disconnect();
+    }
+
+    // On recrée l'observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    window.exoObserver = observer;
+
+    // Observer chaque élément
+    elements.forEach(el => observer.observe(el));
+
+    // window.addEventListener('load', function() {
+    //     // Vérifie si la page vient juste d'être rechargée
+    //     if (!sessionStorage.getItem('reloaded')) {
+    //       sessionStorage.setItem('reloaded', 'true');
+    //       location.reload();
+    //     } else {
+    //       // Supprime la clé pour que le rechargement ne boucle pas
+    //       sessionStorage.removeItem('reloaded');
+    //     }
+    //   });
+}
+
+// Appel au chargement initial et après chaque Turbo navigation
+document.addEventListener("DOMContentLoaded", exoPage);
+document.addEventListener("turbo:load", exoPage);
+
