@@ -4,13 +4,13 @@
 
 
 {% block body %}
-<header>
+
     <div class="headerExercice">
         <h1 class='titreH1' >Liste des exercices</h1></div>
 
 	<a href="{{ path('app_accueil') }}" class='retourAccueil'>
 		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
-</header>        
+        
 	{# Filtres #}
 	<div class="filters">
 		<form method="GET" action="{{ path('app_exercices') }}">

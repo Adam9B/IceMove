@@ -64,10 +64,10 @@
 			<!-- Premier modal : Sélectionner -->
 			<div class="modal-overlay" id="firstModal">
 				<div class="modal-content">
-					<h2>Sélectionner</h2>
+					<h2 class="mt-2">Sélectionner</h2>
 					<div class="modal-buttons">
-						<button id="openSeanceModal">Séance</button>
-						<button id="openProgrammeModal">Programme</button>
+						<button id="openSeanceModal" class='buttonAccueil'>Séance<img src="{{ asset('img/svg/person-running-solid.svg') }}" alt="séance" class="iconAccueil"></button>
+						<button id="openProgrammeModal" class='buttonAccueil'>Programme<img src="{{ asset('img/svg/heart-pulse-solid.svg') }}" alt="programme" class="iconAccueil"></button>
 					</div>
 					<button class="close-button" id="closeFirstModal">Fermer</button>
 				</div>
@@ -78,11 +78,11 @@
 				<div class="modal-content">
 					<h2>Séance</h2>
 					<div class="modal-buttons">
-						<a href="{{path('app_sceance_index')}}">
-							<button id="consulterSeance">Consulter</button>
+						<a href="{{path('app_sceance_index')}}"  class="lienAccueil" >
+							<button id="consulterSeance" class='buttonAccueil'>Consulter<img src="{{ asset('img/svg/folder-solid.svg') }}" alt="séance" class="iconAccueil"></button>
 						</a>
-						<a href="{{path('app_sceance_new')}}">
-							<button id="creerSeance">Créer</button>
+						<a href="{{path('app_sceance_new')}}"  class="lienAccueil" >
+							<button id="creerSeance" class='buttonAccueil'>Créer<img src="{{ asset('img/svg/plus-solid.svg') }}" alt="séance" class="iconAccueil"></button>
 						</a>
 					</div>
 					<button class="close-button" id="closeSeanceModal">Fermer</button>
@@ -94,11 +94,11 @@
 				<div class="modal-content">
 					<h2>Programme</h2>
 					<div class="modal-buttons">
-						<a href="{{path('app_programme_index')}}">
-							<button id="consulterProgramme">Consulter</button>
+						<a href="{{path('app_programme_index')}}"  class="lienAccueil" >
+							<button id="consulterProgramme"  class='buttonAccueil'>Consulter<img src="{{ asset('img/svg/folder-solid.svg') }}" alt="séance" class="iconAccueil"></button>
 						</a>
-						<a href="{{path('app_programme_new')}}">
-							<button id="creerProgramme">Créer</button>
+						<a href="{{path('app_programme_new')}}"  class="lienAccueil" >
+							<button id="creerProgramme"  class='buttonAccueil'>Créer<img src="{{ asset('img/svg/plus-solid.svg') }}" alt="séance" class="iconAccueil"></button>
 						</a>
 					</div>
 					<button class="close-button" id="closeProgrammeModal">Fermer</button>

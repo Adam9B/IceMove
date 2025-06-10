@@ -36,14 +36,19 @@
     </label>
     <div class="menu" id="menu">
         <ul class='text-center'>
-            <li ><a href="test.html" class="nav">Accueil</a></li>
+            <li ><a href="{{ path('app_accueil') }}" class="nav">Accueil</a></li>
             <li><a href="#" class="nav">Exercice</a></li>
-            <li><a href="#" class="nav">Séance</a></li>
-            <li><a href="#" class="nav">Programme</a></li>
             <li><a href="#" class="nav">Blog</a></li>
             <li><a href="#" class="nav">Contact</a></li>
-            <li><a href="#" class="seconnecter" style="color: white;">Se connecter</a></li>
-            <li><p class='menuTexte'><a href="#">Inscrivez-vous</a> gratuitement pour profiter de l'intégralité d'IceMove</p></li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li><a href="{{ path('app_logout') }}" style="color: white;"  class="seconnecter" >Se déconnecter</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}" style="color: white;" class="seconnecter" >Se connecter</a></li>
+                <li><a href="{{ path('app_register') }}" style="color: white;"  class="seconnecter">S'inscrire</a></li>
+                <li><p class='menuTexte'>Inscrivez-vous gratuitement pour profiter de l'intégralité d'IceMove</p></li>
+            {% endif %}
+            
+            
         </ul>
     </div>
    <div class="overlay" id="overlay"></div>  </div></header>

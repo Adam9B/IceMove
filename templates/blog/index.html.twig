@@ -3,7 +3,7 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur le blog</h1>
+    <h1 style='text-align:center;' class='mt-5 mb-5'>Bienvenue sur le blog</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
         <h2>Créer un nouvel article</h2>
@@ -15,16 +15,21 @@
         <hr>
     {% endif %}
 
-    <h2>Articles récents</h2>
-    {% for article in articles %}
-        <div style="margin-bottom: 2rem;">
-            <h3><a href="{{ path('blog_show', { id: article.id }) }}">{{ article.titre }}</a></h3>
-            <p><small>Publié le {{ article.date|date('d/m/Y H:i') }}</small></p>
-            <p>{{ article.contenu|slice(0, 200) ~ '...' }}</p>
-        </div>
-    {% else %}
-        <p>Aucun article publié pour le moment.</p>
-    {% endfor %}
+<a href="{{ path('app_accueil') }}" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
 
-    <a href="{{path('app_accueil')}}">accueil</a>
+
+   <div class="blog-list">
+  {% for article in articles %}
+    <div class="article-preview">
+      <h3><a href="{{ path('blog_show', { id: article.id }) }}">{{ article.titre }}</a></h3>
+      <p><small>Publié le {{ article.date|date('d/m/Y H:i') }}</small></p>
+      <p>{{ article.contenu|slice(0, 200) ~ '...' }}</p>
+    </div>
+  {% else %}
+    <p>Aucun article publié pour le moment.</p>
+  {% endfor %}
+
+  <a href="{{ path('app_accueil') }}" class="link-home">← Retour à l'accueil</a>
+</div>
 {% endblock %}
