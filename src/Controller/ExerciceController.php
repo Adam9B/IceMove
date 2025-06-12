@@ -27,6 +27,14 @@ class ExerciceController extends AbstractController
 
         $queryBuilder = $exerciceRepository->createQueryBuilder('e');
 
+        $searchTerm = $request->query->get('search', '');
+
+        if (!empty($searchTerm)) {
+            $queryBuilder
+                ->andWhere('e.nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+        
         if ($bodyPart) {
             $queryBuilder->andWhere('e.bodyPart = :bodyPart')->setParameter('bodyPart', $bodyPart);
         }
@@ -69,6 +77,7 @@ class ExerciceController extends AbstractController
             'bodyParts' => array_column($bodyParts, 'bodyPart'),
             'equipments' => array_column($equipments, 'equipment'),
             'targets' => array_column($targets, 'target'),
+            'searchTerm' => $searchTerm,
         ]);
     }
 

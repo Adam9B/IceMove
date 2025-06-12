@@ -5,12 +5,27 @@
 
 {% block body %}
 
-    <div class="headerExercice">
-        <h1 class='titreH1' >Liste des exercices</h1></div>
+	<div class="headerExercice">
+		<h1 class='titreH1'>Liste des exercices</h1>
+	</div>
 
 	<a href="{{ path('app_accueil') }}" class='retourAccueil'>
 		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
-        
+
+
+	<form method="GET" class="search-container">
+		
+			<input type="text" name="search" class="search-input" placeholder="Rechercher un exercice..." value="{{ searchTerm }}">
+			
+			<svg type="submit" class="search-icon" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="11" cy="11" r="8"></circle>
+				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+			</svg>
+		
+	</form>
+
+	
+
 	{# Filtres #}
 	<div class="filters">
 		<form method="GET" action="{{ path('app_exercices') }}">
@@ -21,7 +36,8 @@
 					{% for part in bodyParts %}
 						<option value="{{ part }}" {{ selectedBodyPart == part ? 'selected' }}>{{ part }}</option>
 					{% endfor %}
-				</select></div>
+				</select>
+			</div>
 			<div>
 				<label for="equipment">Équipement :</label>
 				<select name="equipment" id="equipment" onchange="this.form.submit()">
@@ -30,17 +46,19 @@
 						<option value="{{ equip }}" {{ selectedEquipment == equip ? 'selected' }}>{{ equip }}</option>
 					{% endfor %}
 				</select>
-</div>
-			<div><label for="target">Cible :</label>
+			</div>
+			<div>
+				<label for="target">Cible :</label>
 				<select name="target" id="target" onchange="this.form.submit()">
 					<option value="">Tout</option>
 					{% for tgt in targets %}
 						<option value="{{ tgt }}" {{ selectedTarget == tgt ? 'selected' }}>{{ tgt }}</option>
 					{% endfor %}
-				</select></div>
-                {# Cible #}
-				
-			
+				</select>
+			</div>
+			{# Cible #}
+
+
 		</form>
 	</div>
 
@@ -51,20 +69,20 @@
 				<img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
 				<p style="font-size:18px;">{{ exercice.nom }}</p>
 				{# <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
-				                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p> #}
+								                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p> #}
 				<p>
 					<strong>Cible :</strong>
 					{{ exercice.target }}</p>
 
 				{# Instructions #}
 				{# <div class="instructions">
-				                    <strong>Instructions :</strong>
-				                    <ol>
-				                        {% for instruction in exercice.instructions %}
-				                            <li>{{ instruction }}</li>
-				                        {% endfor %}
-				                    </ol>
-				                </div> #}
+								                    <strong>Instructions :</strong>
+								                    <ol>
+								                        {% for instruction in exercice.instructions %}
+								                            <li>{{ instruction }}</li>
+								                        {% endfor %}
+								                    </ol>
+								                </div> #}
 				<span class="buttonExoCard d-flex justify-content-evenly align-items-center">
 					<a href="{{ path('exercice_show', {id: exercice.id, retour: 'liste'}) }}">Détail</a>
 					<a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}">

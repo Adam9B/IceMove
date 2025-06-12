@@ -1,6 +1,6 @@
-/* La page */
+La page */
 
-body,
+
 html {
     margin: 0;
     padding: 0;
@@ -8,11 +8,11 @@ html {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
     color: #000000;
-    padding-bottom: 25px;
+    
 }
 
 body{ 
-    margin-bottom: 20px;
+    padding-bottom:100px;
 }
 
 .flecheRetour{
@@ -395,14 +395,15 @@ body{
 /* Footer */
 
 footer {
-    background-color: #000000;
-    color: #fff;
+    background-color: #ffffff00;
+    color: #000000;
     padding: 5px 0;
     text-align: center;
     position: fixed;
     bottom: 0;
     width: 100%;
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: 700;
     
     
 }
@@ -572,6 +573,41 @@ footer {
 
 /* Page d'exercice */
 
+.search-container {
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #555555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    fill: #000000;
+  }
+
 .pagination a {
     text-decoration: none;
     color: #000000;
@@ -592,6 +628,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin: 5%;
+    margin-bottom: 0%;
 }
 
 .exercice-card {
@@ -1009,4 +1046,13 @@ footer {
     }
   }
 
-/* fin detail blog */
+/* fin detail blog
+
+/* page seance */
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px; /* ou la taille souhaitée */
+  }
