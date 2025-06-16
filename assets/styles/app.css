@@ -624,11 +624,20 @@ footer {
 
 }
 
+
+
+
+.sceance-exercices{
+    
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .exercices {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin: 5%;
-    margin-bottom: 0%;
+    margin-bottom: 1%;
 }
 
 .exercice-card {
@@ -654,31 +663,37 @@ footer {
   justify-content: flex-end;
 }
 
-.buttonExoCard a {
+.btn-detail {
     padding: 10px 20px;
+    margin: 20px;
     background-color: #000000;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     text-decoration: none;
-    margin: 10px;
+    
     cursor: pointer;
     transition: all 0.25s ease-out;
     text-decoration: none;
+    
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    
 }
 
-.buttonExoCard a:hover {
+.btn-detail:hover {
     transform: translateY(-3px);
     background-color: #333333;
 }
 
-.exercice-card p {
+.titreCard {
     border-radius: 20px;
     border: #646464 solid 1px;
     width: 100%;
     text-align: center;
-    margin: 20px auto;
+    margin: 30px auto;
     padding: 10px;
 }
 
@@ -1055,4 +1070,77 @@ footer {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 300px; /* ou la taille souhaitée */
+  }
+
+  .h1{
+    text-align: center;
+    margin-top: 20px;
+
+  }
+
+  /* description  de la seance/programme */
+
+  .collapsible-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .collapsible-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .collapsible-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    
+    
+    white-space: normal;
+    margin-bottom: 10px;
+    transition: max-height 0.5s ease-in-out;
+    
+   
+   width: 100%;
+  word-wrap: break-word;
+  }
+
+  .collapsible-text.open {
+    -webkit-line-clamp: unset;
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in-out;
+  }
+
+  .toggle-btn {
+    display: none; /* Ne s'affiche que si le texte dépasse */
+    padding: 6px 12px;
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .toggle-btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+
+  .exoNom{
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #000000;
+    text-decoration: none;
+  }
+
+  .sceance-details{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+   margin-top: 50px;
+   padding: 20px;
+   border-radius: 10px;
+
   }

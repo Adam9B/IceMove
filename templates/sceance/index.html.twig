@@ -9,8 +9,13 @@
 
 <style>
 
+.container{
+  margin-top:50px;
+}
+
 table{
 	background-color:rgb(255, 255, 255);
+  
 }
 
 td, tr{
@@ -21,7 +26,7 @@ p {
     text-align: center;
     font-size: 1rem;
     margin-top: 20px;
-    color: #666;
+    color: black;
   }
 
   /* Tableau */
@@ -29,10 +34,11 @@ p {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    margin-top:50px;
   }
 
   .table thead th {
-    background-color: #f8f8f8;
+    background-color:rgb(255, 255, 255);
     color: #000000;
     padding: 12px 15px;
     text-align: left;
@@ -218,54 +224,39 @@ p {
   }
 
   /* Barre de recherche */
-  .search-container {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 20px;
-  }
+ 
 
-  .search-input {
-	width: 300px;
-	padding: 10px 15px;
-	font-size: 1rem;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	transition: border-color 0.3s ease;
-  }
+ 
 
-  .search-input:focus {
-	border-color: #000000;
-  }
-
-  .search-icon {
-	position: absolute;
-	right: 20px;
-	top: calc(50% - 10px);
-	cursor: pointer;
-	
-  }
+  
 
 
 </style>
 
 
 	<div class="container">
-		<h1>Liste des séances</h1>
+		<h1 class='titreH1'>Liste des séances</h1>
 
 		{# Barre de recherche #}
 		<form method="GET" class="search-container">
 		
 			<input type="text" name="search" class="search-input" placeholder="Rechercher une séance..." value="{{ searchTerm }}">
-			
+			<svg type="submit" class="search-icon" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="11" cy="11" r="8"></circle>
+				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+			</svg>
 			
 		
 	</form>
+
+<a href="{{ path('app_accueil') }}" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
 
 		{# Vérifie si des séances existent #}
 		{% if pagination.getTotalItemCount() == 0 %}
 			<p>Aucune séance disponible.</p>
 		{% else %}
-			<table class="table ">
+			<table class="table">
 				<thead>
 					<tr>
 						{# <th>ID</th> #}
@@ -278,7 +269,7 @@ p {
 				<tbody>
 					{# Boucle sur chaque séance #}
 					{% for sceance in pagination %}
-						<tr class='bg-light'>
+						<tr >
 							
 							<td class='truncate'>{{ sceance.titre }}</td>
 							<td>{{ sceance.date ? sceance.date|date('d/m/Y') : 'Non définie' }}</td>

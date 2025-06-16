@@ -67,10 +67,10 @@
 		{% for exercice in pagination %}
 			<div class="exercice-card hidden">
 				<img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
-				<p style="font-size:18px;">{{ exercice.nom }}</p>
+				<p class='titreCard' style="font-size:18px;">{{ exercice.nom }}</p>
 				{# <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
 								                <p><strong>Équipement :</strong> {{ exercice.equipment }}</p> #}
-				<p>
+				<p class='titreCard' >
 					<strong>Cible :</strong>
 					{{ exercice.target }}</p>
 
@@ -84,8 +84,8 @@
 								                    </ol>
 								                </div> #}
 				<span class="buttonExoCard d-flex justify-content-evenly align-items-center">
-					<a href="{{ path('exercice_show', {id: exercice.id, retour: 'liste'}) }}">Détail</a>
-					<a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}">
+					<a class='btn-detail' href="{{ path('exercice_show', {id: exercice.id, retour: 'liste'}) }}">Détail</a>
+					<a  class='btn-detail' href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}">
 						Ajouter à une séance
 					</a>
 				</span>

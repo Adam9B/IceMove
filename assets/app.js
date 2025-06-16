@@ -181,3 +181,34 @@ function exoPage() {
 document.addEventListener("DOMContentLoaded", exoPage);
 document.addEventListener("turbo:load", exoPage);
 
+
+function initCollapsibleText() {
+    let text = document.getElementById('collapsibleText');
+    let btn = document.getElementById('toggleBtn');
+    let maxHeight = 20; // Hauteur max en px à adapter
+
+    if (!text || !btn) return;
+
+    text.style.maxHeight = maxHeight + 'px';
+    text.style.overflow = 'hidden';
+
+    if (text.scrollHeight > maxHeight) {
+        btn.style.display = 'inline-block';
+    } else {
+        btn.style.display = 'none';
+    }
+
+    btn.onclick = function() {
+        if (text.style.maxHeight === maxHeight + 'px') {
+            text.style.maxHeight = 'none';
+            btn.textContent = 'Moins';
+        } else {
+            text.style.maxHeight = maxHeight + 'px';
+            btn.textContent = 'Plus';
+        }
+    };
+}
+
+// Pour chargement initial ET navigation Turbo
+document.addEventListener('DOMContentLoaded', initCollapsibleText);
+document.addEventListener('turbo:load', initCollapsibleText);

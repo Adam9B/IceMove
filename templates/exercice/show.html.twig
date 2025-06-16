@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+
 <div class="exercice-detail-page">
 
     <h1 class="titreH1">{{ exercice.nom }}</h1>
