@@ -1144,3 +1144,30 @@ footer {
    border-radius: 10px;
 
   }
+
+
+  /* ajouter a seance */
+.btnNormal {
+  padding: 10px 20px;
+  margin: 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+  text-decoration: none;
+  
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btnNormal:hover {
+    
+    background-color: #2e2e2e;}
+   
+  /* fin ajouter a seance */

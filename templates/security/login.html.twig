@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<a href="{{ path('app_accueil') }}" class='retourAccueil'>
+<a href="javascript:history.back()" class='retourAccueil'>
 		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
 
 <div class="divlogoLogin">
@@ -13,7 +13,7 @@
 
 <form method="post">
     {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div style="text-align:center; font-size:20px;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}

@@ -3,7 +3,12 @@
 {% block title %}Ajouter l'exercice à une séance{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
+
+<a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+    <div class="container mt-5">
         <h1 class="mb-4">Ajouter l'exercice "{{ exercice.nom }}" à une de vos séances</h1>
 
         {# {% for label, messages in app.flashes %}
@@ -31,10 +36,10 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Ajouter à la séance</button>
+                <button type="submit" class="btnNormal">Ajouter à la séance</button>
             </form>
         {% endif %}
 
-        <a href="{{ path('app_exercices') }}" class="btn btn-secondary mt-3">← Retour à la liste des exercices</a>
+        <a href="{{ path('app_exercices') }}" class="btnNormal">← Retour à la liste des exercices</a>
     </div>
 {% endblock %}
