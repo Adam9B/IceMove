@@ -1,15 +1,48 @@
 {# templates/sceance/new.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Créer une nouvelle séance</h1>
+{% block title %}Créer une nouvelle séance{% endblock %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">Créer</button>
-   
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_accueil') }}"> retour accueil</a>
-    <a href="{{ path('app_sceance_index') }}" class="btn btn-secondary">Retour à la liste</a>
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/sceance_form.css') }}">
 {% endblock %}
+
+
+
+{% block body %}
+
+	<a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+  <div class="sceance-container">
+  
+    <h1 class="sceance-title">Créer une nouvelle séance</h1>
+
+    <form method="post" class="sceance-form">
+      {{ form_start(form, {'attr': {'class': 'sceance-form'}}) }}
+
+        <div class="form-group form-titre">
+          {{ form_label(form.titre, null, {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.titre, {'attr': {'class': 'form-input', 'placeholder': 'Titre de la séance'}}) }}
+        </div>
+
+        <div class="form-group form-description">
+          {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.description, {'attr': {'class': 'form-textarea', 'placeholder': 'Décrivez la séance (facultatif)'}}) }}
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn-create-sceance">Créer <span class="plus">+</span></button>
+        </div>
+
+      {{ form_end(form) }}
+    </form>
+
+    <div class="sceance-nav-links">
+      <a href="{{ path('app_sceance_index') }}" class="nav-link">Liste des séances</a>
+    </div>
+ <div>
+{% endblock %}
+

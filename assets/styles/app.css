@@ -1171,3 +1171,151 @@ footer {
     background-color: #2e2e2e;}
    
   /* fin ajouter a seance */
+
+  /* créer seance/programme */
+
+ 
+  
+
+
+
+
+  
+  /* Container centré et propre */
+
+
+
+  .sceance-container {
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 28vh !important;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.1);
+    
+    
+  }
+  
+  /* Titre du formulaire */
+  .sceance-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+  
+  /* Le bloc formulaire */
+  .sceance-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  /* Groupe d’un champ */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  /* Champs texte et select */
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 12px 18px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #000;
+    box-shadow: none;
+    transition: border 0.3s ease;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border: 1px solid #000;
+    outline: none;
+  }
+  
+  /* Textarea spécifique */
+  .form-textarea {
+    border-radius: 20px;
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* Bouton */
+  .form-submit {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn-create-sceance {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-create-sceance:hover {
+    background-color: #2e2e2e;
+  }
+  
+  .plus {
+    font-size: 20px;
+  }
+  
+  /* Liens sous le form */
+  .sceance-nav-links {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .nav-link {
+    color: #444;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: 500;
+  }
+  
+  .nav-link:hover {
+    color: #7e7e7e;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .sceance-container {
+      padding: 25px;
+    }
+  
+    .sceance-title {
+      font-size: 22px;
+    }
+  
+    .btn-create-sceance {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+
+
+
+  /* fin créer seance/programme */

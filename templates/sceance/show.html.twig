@@ -32,6 +32,7 @@
 	
 		
 {% for exercice in sceance.exercices %}
+
 <div class="exercice-card hidden p-2" style="padding-bottom: 50px !important;">
 			<p class='exoNom '>{{ exercice.nom }}</p>
 			<img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
@@ -42,9 +43,11 @@
 			<a class='btn-detail' href="{{ path('exercice_show', { id: exercice.id, retour: 'sceance', sceanceId: sceance.id }) }}" 
 			>Voir le
 				détail</a>
+				
 </div>
+
 		{% else %}
-			<p>Aucun exercice ajouté.</p>
+			<p style="grid-column: 2; text-align:center; font-size:25px" >Aucun exercice ajouté.</p>
 		{% endfor %}
 	
 </div>
