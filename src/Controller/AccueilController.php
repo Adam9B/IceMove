@@ -32,6 +32,14 @@ final class AccueilController extends AbstractController
 
     }
 
+    #[Route('/mentionLegale', name: 'mentionLegale')]
+    public function mentionLegale(): Response
+    {
+        return $this->render('accueil/mentionLegale.html.twig', [
+            
+        ]);
+    }
+
 
     
 

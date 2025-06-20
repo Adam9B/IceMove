@@ -8,17 +8,6 @@
 
     <p><strong>Description :</strong> {{ programme.description }}</p>
 
-    <div class="mb-3">
-        <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
-        <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
-
-        <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
-              class="d-inline"
-              onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
-            <button class="btn btn-danger">Supprimer</button>
-        </form>
-    </div>
 
     <hr>
 
@@ -58,6 +47,17 @@
         <p>Aucune séance pour ce programme.</p>
     {% endif %}
 
+    <div class="mb-3">
+        <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ path('app_programme_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+        <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
+              class="d-inline"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+        </form>
+    </div>
     <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}" class="btn btn-success mt-4">Ajouter une séance</a>
 </div>
 {% endblock %}

@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Security\Core\Security;
 use App\Entity\Sceance;
 use App\Form\SceanceType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Entity\ProgrammeSceance;
 use App\Repository\SceanceRepository;
 use App\Repository\ExerciceRepository;
+use App\Repository\ProgrammeRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SceanceController extends AbstractController
 {
@@ -182,4 +184,55 @@ public function removeExerciceFromSceance(
             'searchTerm' => $searchTerm, // Passer le terme de recherche à la vue
         ]);
     }
+
+    #[Route('/sceance/{sceanceId}/ajouter-au-programme', name: 'app_sceance_ajouter_au_programme')]
+public function ajouterAuProgrammeDepuisSceance(
+    int $sceanceId,
+    Request $request,
+    EntityManagerInterface $em,
+    SceanceRepository $sceanceRepository,
+    ProgrammeRepository $programmeRepository
+): Response {
+    $sceance = $sceanceRepository->find($sceanceId);
+    $utilisateur = $this->getUser();
+
+    if (!$sceance || $sceance->getUtilisateur() !== $utilisateur) {
+        $this->addFlash('error', 'Accès interdit à cette séance.');
+        return $this->redirectToRoute('app_sceance_index');
+    }
+
+    $programmes = $programmeRepository->findBy(['utilisateur' => $utilisateur]);
+
+    if ($request->isMethod('POST')) {
+        $programmeId = $request->request->get('programme_id');
+        $jour = $request->request->get('jour');
+
+        if (!in_array($jour, ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'], true)) {
+            $this->addFlash('error', 'Jour invalide.');
+        } else {
+            $programme = $programmeRepository->find($programmeId);
+
+            if ($programme && $programme->getUtilisateur() === $utilisateur) {
+                $programmeSceance = new ProgrammeSceance();
+                $programmeSceance->setProgramme($programme);
+                $programmeSceance->setSceance($sceance);
+                $programmeSceance->setJour($jour);
+
+                $em->persist($programmeSceance);
+                $em->flush();
+
+                $this->addFlash('success', 'Séance ajoutée au programme.');
+                return $this->redirectToRoute('app_programme_show', ['id' => $programmeId]);
+            } else {
+                $this->addFlash('error', 'Programme non valide.');
+            }
+        }
+    }
+
+    return $this->render('sceance/ajouter_au_programme.html.twig', [
+        'sceance' => $sceance,
+        'programmes' => $programmes,
+    ]);
+}
+
 }

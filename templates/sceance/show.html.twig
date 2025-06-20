@@ -57,12 +57,16 @@
 		retour accueil</a>
 	<a href="{{ path('app_sceance_index') }}">
 		retour à la liste des séances</a>
+	<a href="{{ path('app_exercices') }}">Ajouter un exercice</a>
+	<a href="{{ path('app_sceance_ajouter_au_programme', { sceanceId: sceance.id }) }}" class="btn btn-primary mt-4">
+    Ajouter cette séance à un programme
+</a>
 	<a href="{{ path('app_sceance_edit', {'id': sceance.id}) }}">Modifier</a>
 
 	<form method="POST" action="{{ path('app_sceance_delete', {'id': sceance.id}) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette seance ?');" style="display:inline;">
 
 		<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sceance.id) }}">
-		<button type="submit" class="btn btn-danger">Supprimer</button>
+		<button type="submit" class="btnNormal">Supprimer</button>
 	</form>
 </div>
 
