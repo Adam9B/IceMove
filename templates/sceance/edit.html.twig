@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer la Séance{% endblock %}
+
+{% block body %}
+
+<section>
+<div class="container mt-4">
+    <a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+    <h1 class="page-title">Modifier la séance</h1>
+
+    <div class="form-section">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btnNormal mt-3">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="exercice-section mt-5">
+        <h3 class="section-title">Exercices associés</h3>
+
+        <ul class="exercice-list">
+            {% for exercice in sceance.exercices %}
+                <li class="exercice-item d-flex justify-content-between align-items-center">
+                    <span class="exercice-name" style="font-size:20px">{{ exercice.nom }}</span>
+                    <form method="post" action="{{ path('app_sceance_remove_exercice', {
+                        sceanceId: sceance.id,
+                        exerciceId: exercice.id
+                    }) }}" onsubmit="return confirm('Supprimer cet exercice ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('remove_exercice_' ~ exercice.id) }}">
+                        <button  class="btnNormal">Supprimer</button>
+                    </form>
+                </li>
+            {% else %}
+                <li class="text-muted">Aucun exercice pour cette séance.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</section>
+{% endblock %}

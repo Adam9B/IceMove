@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Programme{% endblock %}
+
+{% block body %}
+<section class="programme-edit">
+
+    <a href="javascript:history.back()" class="retourAccueil">
+        <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+    </a>
+
+    <h1 class="page-title">Modifier le programme</h1>
+
+    <form method="post" class="form-block">
+
+        <div class="form-group">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" id="titre" name="titre" class="form-input" value="{{ programme.titre }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-textarea" rows="3">{{ programme.description }}</textarea>
+        </div>
+
+        <section class="programme-table-section">
+            <h2 class="section-title">Séances associées</h2>
+
+            <table class="programme-table">
+                <thead>
+                    <tr>
+                        <th>Séance</th>
+                        <th>Jour</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ps in programme.programmeSceances %}
+                        <tr>
+                            <td>{{ ps.sceance.titre }}</td>
+                            <td>
+                                <select name="jour[{{ ps.id }}]" class="form-select">
+                                    {% for jour in jourOptions %}
+                                        <option value="{{ jour }}" {% if ps.jour == jour %}selected{% endif %}>{{ jour }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="delete[{{ ps.id }}]">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <div class="form-actions">
+            <button type="submit" class="btnNormal">Enregistrer</button>
+            <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btnNormal">Annuler</a>
+        </div>
+    </form>
+
+</section>
+{% endblock %}

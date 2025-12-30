@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section>
+  <article>
+    <a href="javascript:history.back()" class='retourAccueil'>
+      <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="fleche retour" class="img-fluid mx-auto flecheRetour">
+    </a>
+
+    <div class="divlogoLogin">
+      <img src="{{ asset('img/finalLogo.jpg') }}" alt="logo icemove" class="img-fluid logo">
+    </div>
+
+    <!-- Bloc principal du formulaire, adapté avec les classes de style -->
+    <div class="sceance-container2">
+      <h2 class="sceance-title">Contactez-moi</h2>
+
+      <!-- Formulaire Getform -->
+      <form id="contactForm"
+            class="sceance-form"
+            action="https://getform.io/f/bnllqlmb"
+            method="POST"
+            enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Nom</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="Nom" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-input" placeholder="Email" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">Message</label>
+          <textarea id="message" name="message" class="form-textarea" placeholder="Message" required></textarea>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn-create-sceance">Envoyer</button>
+        </div>
+      </form>
+
+     
+    </div>
+  </article>
+</section>
+{% endblock %}

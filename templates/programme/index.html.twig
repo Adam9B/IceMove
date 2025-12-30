@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Programmes{% endblock %}
+
+{% block body %}
+<style>
+  .programme-container {
+    margin-top: 50px;
+  }
+
+  .titreH1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* Reprise des styles déjà existants */
+  .search-container {
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    margin: 0 auto 30px auto;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    fill: #000000;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+
+  .table thead th {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .table tbody td {
+    background-color: #ffffff;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ccc;
+    color: #000000;
+  }
+
+  .table tbody tr:hover {
+    background-color: #fafafa;
+  }
+
+  .action-cell {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  
+
+  .delete-btn  {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    border: 1px solid #000000;
+    color: #000000;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+ 
+  .delete-btn {
+    border: none;
+    background-color: transparent;
+    color: #000000;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 16px;
+  }
+
+  .delete-btn:hover {
+    background-color:rgb(0, 0, 0);
+    color: #fff;
+  }
+
+  #creerProgramme {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #creerProgramme:hover {
+    background-color: #333;
+  }
+
+  
+
+  
+ .btnA{
+    display: block;
+    padding: 6px 12px;
+  
+   font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+.btnA:hover {
+    color: #777;
+  }
+
+
+  @media (max-width: 768px) {
+    .table thead {
+      display: none;
+    }
+
+    .table tbody td {
+      display: block;
+      padding: 10px 0;
+      text-align: left;
+      border: none;
+    }
+
+    .table tbody tr {
+      padding: 15px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .table tbody td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      color: #555;
+      min-width: 100px;
+    }
+
+    .action-cell {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<section>
+
+<a href="javascript:history.back()" class="retourAccueil">
+            <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+        </a>
+
+<div class="container programme-container">
+  <h1 class="titreH1">Liste des programmes</h1>
+
+  <form method="GET" class="search-container">
+    <input type="text" name="search" class="search-input" placeholder="Rechercher un programme..." value="{{ searchTerm }}">
+    <svg class="search-icon" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </form>
+
+  {% if programmes is empty %}
+    <p style="text-align:center;">Aucun programme disponible.</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for programme in programmes %}
+          <tr>
+            <td data-label="Titre">{{ programme.titre }}</td>
+            <td data-label="Description">{{ programme.description|default('Aucune description') }}</td>
+            <td data-label="Actions">
+              <div class="action-cell">
+                <a href="{{ path('app_programme_show', {id: programme.id}) }}" class="btnA">Voir</a>
+                <a href="{{ path('app_programme_edit', {id: programme.id}) }}"class="btnA" >Modifier</a>
+                <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}" onsubmit="return confirm('Supprimer ce programme ?');">
+                  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+                  <button type="submit" class="delete-btn">Supprimer</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <a href="{{ path('app_programme_new') }}" class="btnA">
+    <button id="creerProgramme">Créer un programme</button>
+  </a>
+
+  <a href="{{ path('app_accueil') }}" class="btnA">← Retour à l'accueil</a>
+</div></section>
+{% endblock %}

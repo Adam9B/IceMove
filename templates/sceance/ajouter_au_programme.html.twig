@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter cette Séance à un Programme{% endblock %}
+
+{% block body %}
+<section class="sceance-wrapper">
+
+    <div class="sceance-container2">
+     <a href="javascript:history.back()" class="retourAccueil">
+            <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+        </a>
+        <h1 class="sceance-title">Ajouter la Séance : {{ sceance.titre }} à un Programme</h1>
+
+        {% if programmes is empty %}
+            <p>Aucun programme disponible, vous devez en créer un.</p>
+            <a href="{{ path('app_programme_new') }}" class="btnNormal">Créer un programme</a>
+        {% else %}
+            <form method="post" class="sceance-form mt-4">
+
+                <div class="form-group">
+                    <label for="programme_id" class="form-label">Choisir un programme :</label>
+                    <select name="programme_id" id="programme_id" class="form-select">
+                        {% for programme in programmes %}
+                            <option value="{{ programme.id }}">{{ programme.titre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jour" class="form-label">Jour :</label>
+                    <select name="jour" id="jour" class="form-select">
+                        <option value="">-- Choisissez un jour --</option>
+                        {% for jour in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+                            <option value="{{ jour }}">{{ jour }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-submit mt-3">
+                    <button type="submit" class="btn-create-sceance">Ajouter <span class="plus">+</span></button>
+                </div>
+            </form>
+        {% endif %}
+        <div class="sceance-nav-links mt-4">
+            <a href="{{ path('app_exercices') }}" class="btnNormal">← Retour à la liste des exercices</a>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

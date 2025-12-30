@@ -1,0 +1,107 @@
+{# templates/sceance/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section>
+		<div>
+			<a href="javascript:history.back()" class='retourAccueil'>
+				<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+			<h1 class='h1'>{{ sceance.titre }}</h1>
+		</div>
+
+	<article class="container sceance-details">
+			<strong style='text-align:center;'>Date :</strong>
+			{{ sceance.date|date('d/m/Y') }}</p>
+		<p></p>
+		<p class="collapsible-title">Description :</p>
+
+		<div class="collapsible-wrapper">
+			<div class="collapsible-text" id="collapsibleText">
+				{{ sceance.description|default('Aucune description.') }}
+			</div>
+
+			<button class="toggle-btn" onclick="toggleText()" id="toggleBtn">Plus</button>
+		</div>
+	</article>
+	<article>
+		<h2 class="container pt-5 ">Exercices :</h2>
+
+		<div class="exercices sceance-exercices">
+
+
+			{% for exercice in sceance.exercices %}
+
+				<div class="exercice-card hidden p-2" style="padding-bottom: 50px !important;">
+					<p class='exoNom '>{{ exercice.nom }}</p>
+					<img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
+					<p class='titreCard'>
+						<strong>cible :
+						</strong>
+						{{exercice.target}}</p>
+					<a class='btn-detail' href="{{ path('exercice_show', { id: exercice.id, retour: 'sceance', sceanceId: sceance.id }) }}">Voir le
+																												détail</a>
+
+				</div>
+
+			{% else %}
+				<p style="grid-column: 2; text-align:center; font-size:25px">Aucun exercice ajouté.</p>
+			{% endfor %}
+
+		</div>
+		<div>
+			<div class='ensBouton'>
+				<a href="{{ path('app_accueil') }}" class='scnBtn'>
+					retour accueil</a>
+				<a href="{{ path('app_sceance_index') }}" class='scnBtn'>
+					retour à la liste des séances</a>
+				<a href="{{ path('app_exercices') }}" class='scnBtn'>Ajouter un exercice</a>
+				<a href="{{ path('app_sceance_ajouter_au_programme', { sceanceId: sceance.id }) }}" class='scnBtn'>
+					Ajouter cette séance à un programme
+				</a>
+				<a href="{{ path('app_sceance_edit', {'id': sceance.id}) }}" class='scnBtn'>Modifier</a>
+
+				<form method="POST" action="{{ path('app_sceance_delete', {'id': sceance.id}) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette seance ?');" style="display:inline;">
+
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sceance.id) }}">
+					<button type="submit" class='scnBtn'>Supprimer</button>
+				</form>
+			</div>
+		</div>
+	</article>
+</section>
+<script>
+	{
+# document.addEventListener('DOMContentLoaded', function () {
+let text = document.getElementById('collapsibleText');
+let btn = document.getElementById('toggleBtn');
+let maxHeight = 20;
+// Hauteur max en px à adapter
+
+// Applique la hauteur max et cache le débordement
+text.style.maxHeight = maxHeight + 'px';
+text.style.overflow = 'hidden';
+
+// Affiche le bouton si le texte déborde
+if (text.scrollHeight > maxHeight) {
+btn.style.display = 'inline-block';
+} else {
+btn.style.display = 'none';
+}
+
+// Fonction pour le bouton
+btn.addEventListener('click', function () {
+if (text.style.maxHeight === maxHeight + 'px') {
+text.style.maxHeight = 'none';
+btn.textContent = 'Moins';
+} else {
+text.style.maxHeight = maxHeight + 'px';
+btn.textContent = 'Plus';
+}
+});
+});
+#
+}
+</script>{% endblock %}

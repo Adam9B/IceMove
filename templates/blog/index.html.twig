@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog
+{% endblock %}
+
+{% block body %}
+	<h1 style='text-align:center;' class='mt-5 mb-5'>Bienvenue sur le blog</h1>
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<h2>Créer un nouvel article</h2>
+		{{ form_start(form) }}
+		{{ form_row(form.titre) }}
+		{{ form_row(form.contenu) }}
+		<button class="btn btn-primary">Publier</button>
+		{{ form_end(form) }}
+		<hr>
+	{% endif %}
+
+	<a href="{{ path('app_accueil') }}" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+	<div><img src="{{ asset('img/salleSport.webp')}}" alt="Image d'une salle de sport" style='width: 100%;           /* toute la largeur du parent */
+		  max-height: 300px;
+		  object-fit: cover;
+		  display: block; margin-bottom:50px;'><div>
+			<div class="blog-list">
+				{% for article in articles %}
+					<div class="article-preview">
+						<h3>
+							<a href="{{ path('blog_show', { id: article.id }) }}">{{ article.titre }}</a>
+						</h3>
+						<p>
+							<small>Publié le
+								{{ article.date|date('d/m/Y H:i') }}</small>
+						</p>
+						<p>{{ article.contenu|slice(0, 200) ~ '...' }}</p>
+					</div>
+				{% else %}
+					<p>Aucun article publié pour le moment.</p>
+				{% endfor %}
+
+				<a href="{{ path('app_accueil') }}" class="link-home">← Retour à l'accueil</a>
+			</div>
+		{% endblock %}

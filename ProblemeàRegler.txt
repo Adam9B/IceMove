@@ -1,0 +1,11 @@
+1. ajouter une seance à un programme apres avoir créer la seance (pas lors de sa création seulement, mettre en manyToMany)  c bon 
+
+2. mettre qu'il est impossible de mettre une seance dans un programme pendant sa création
+
+3.mettre si possible le jour de la seance dans le programme et pas dans la seance (edit ou new)
+
+4. faire le calendrier hebdomadaire, et mettre dans l'ordre les sceances.(genre: lundi, mardi, mercredi, etc...)
+
+5. pouvoir supprimer une seance dans un programme dans l'edit du programme
+
+6. Ameliorer la position des bouton etc. dans seance et programme

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Séance au Programme{% endblock %}
+
+{% block body %}
+<section class="sceance-wrapper">
+
+    <div class="sceance-container2">
+
+        <a href="javascript:history.back()" class="retourAccueil">
+            <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+        </a>
+
+        <h1 class="sceance-title">Ajouter une séance au programme : {{ programme.titre }}</h1>
+
+        {% if sceances is empty %}
+            <p>Aucune séance disponible à ajouter.</p>
+        {% else %}
+            <form method="post" class="sceance-form mt-4">
+
+                <div class="form-group">
+                    <label for="sceance_id" class="form-label">Choisir une séance :</label>
+                    <select name="sceance_id" id="sceance_id" class="form-select" required>
+                        {% for sceance in sceances %}
+                            <option value="{{ sceance.id }}">{{ sceance.titre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jour" class="form-label">Jour :</label>
+                    <select name="jour" id="jour" class="form-select" required>
+                        <option value="">-- Choisissez un jour --</option>
+                        {% for jour in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+                            <option value="{{ jour }}">{{ jour }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-submit mt-4">
+                    <button type="submit" class="btn-create-sceance">Ajouter <span class="plus">+</span></button>
+                </div>
+            </form>
+        {% endif %}
+
+        <div class="sceance-nav-links mt-4">
+            <a href="{{ path('app_programme_show', { id: programme.id }) }}" class="btnNormal">← Retour au programme</a>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

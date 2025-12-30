@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: symfony-app
+    env: php
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php -S 0.0.0.0:10000 -t public

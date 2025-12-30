@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="bt.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+
+{# <a id='flecheRetour' class='' >
+<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 500" style ='width:45px; margin:5px;' >
+<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+<path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+</a> #}
+
+<div>
+<label class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="menu" id="menu">
+        <ul>
+            <li ><a href="test.html" class="nav">Accueil</a></li>
+            <li><a href="#" class="nav">Exercice</a></li>
+            <li><a href="#" class="nav">Séance</a></li>
+            <li><a href="#" class="nav">Programme</a></li>
+            <li><a href="#" class="nav">Blog</a></li>
+            <li><a href="#" class="nav">Contact</a></li>
+            <li><a href="#" class="seconnecter" style="color: white;">Se connecter</a></li>
+            <li><p><b><a href="#">Inscrivez-vous</a></b> gratuitement pour profiter de l'intégralité d'IceMove</p></li>
+        </ul>
+    </div>
+   <div class="overlay" id="overlay"></div>  </div></header>
+   <button class="buttonBase">Accueil</button>
+
+   <button id="openFirstModal">Programme / Séance</button>
+
+  <!-- Premier modal : Sélectionner -->
+  <div class="modal-overlay" id="firstModal">
+    <div class="modal-content">
+      <h2>Sélectionner</h2>
+      <div class="modal-buttons">
+        <button id="openSeanceModal">Séance</button>
+        <button id="openProgrammeModal">Programme</button>
+      </div>
+      <button class="close-button" id="closeFirstModal">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Deuxième modal : Séance -->
+  <div class="modal-overlay" id="seanceModal">
+    <div class="modal-content">
+      <h2>Séance</h2>
+      <div class="modal-buttons">
+        <a href ="{{path('app_sceance_index')}}"><button id="consulterSeance">Consulter</button></a>
+        <a href ="{{path('app_sceance_new')}}"><button id="creerSeance">Créer</button></a>
+      </div>
+      <button class="close-button" id="closeSeanceModal">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Troisième modal : Programme -->
+  <div class="modal-overlay" id="programmeModal">
+    <div class="modal-content">
+      <h2>Programme</h2>
+      <div class="modal-buttons">
+        <a href ="{{path('app_programme_index')}}"><button id="consulterProgramme">Consulter</button></a>
+        <a href ="{{path('app_programme_new')}}"><button id="creerProgramme">Créer</button></a>
+      </div>
+      <button class="close-button" id="closeProgrammeModal">Fermer</button>
+    </div>
+  </div>
+
+</body>
+</html>

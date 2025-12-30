@@ -1,0 +1,27 @@
+# config/services.yaml
+
+# Définition des paramètres
+parameters:
+    json_file_path: '%kernel.project_dir%/public/FINALjsonAPI.json'
+
+# Configuration des services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Command\ImportExercisesCommand:
+        arguments:
+            $jsonFilePath: '%json_file_path%'
+        tags: ['console.command']
+
+    App\Security\AppAuthenticator:
+        autowire: true
+        autoconfigure: true

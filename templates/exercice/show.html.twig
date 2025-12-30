@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+
+<div class="exercice-detail-page">
+
+    <h1 class="titreH1">{{ exercice.nom }}</h1>
+    <img src="{{ exercice.gifUrl }}" alt="{{ exercice.nom }}">
+    <p><strong>Groupe musculaire :</strong> {{ exercice.bodyPart }}</p>
+    <p><strong>Équipement :</strong> {{ exercice.equipment }}</p>
+    <p><strong>Cible :</strong> {{ exercice.target }}</p>
+
+    <h3>Instructions :</h3>
+    <ol>
+        {% for instruction in exercice.instructions %}
+            <li>{{ instruction }}</li>
+        {% endfor %}
+    </ol>
+<a href="{{ path('exercice_ajouter_a_seance', { id: exercice.id }) }}" class="btn-action ">
+    Ajouter à une séance
+</a><br><br>
+    {% if retour == 'sceance' and sceanceId %}
+    <a href="{{ path('app_sceance_show', {id: sceanceId}) }}">← Retour à la séance</a>
+{% else %}
+    <a href="{{ path('app_exercices') }}">← Retour à la liste des exercices</a>
+{% endif %}
+  </div>
+{% endblock %}

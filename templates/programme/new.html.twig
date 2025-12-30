@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Programme{% endblock %}
+
+{% block body %}
+<section class="sceance-wrapper">
+
+    <a href="javascript:history.back()" class="retourAccueil">
+        <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+    </a>
+
+    <div class="sceance-container">
+        <h1 class="sceance-title">Créer un nouveau programme</h1>
+
+        <form method="post" class="sceance-form">
+            {{ form_start(form, {'attr': {'class': 'sceance-form'}}) }}
+
+            <div class="form-group form-titre">
+                {{ form_label(form.titre, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.titre, {'attr': {'class': 'form-input', 'placeholder': 'Titre du programme'}}) }}
+            </div>
+
+            <div class="form-group form-description">
+                {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-textarea', 'placeholder': 'Décrivez le programme (facultatif)'}}) }}
+            </div>
+
+            <div class="form-submit">
+                <button type="submit" class="btn-create-sceance">Créer <span class="plus">+</span></button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+
+        <div class="sceance-nav-links mt-4">
+            <a href="{{ path('app_programme_index') }}" class="nav-link">Retour à la liste des programmes</a>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

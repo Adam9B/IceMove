@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter l'exercice à une séance{% endblock %}
+
+{% block body %}
+<section class="sceance-wrapper">
+
+    <div class="sceance-container2">
+
+        <a href="javascript:history.back()" class="retourAccueil">
+            <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Retour" class="img-fluid flecheRetour">
+        </a>
+
+        <h1 class="sceance-title mb-4">Ajouter l'exercice "{{ exercice.nom }}" à une de vos séances</h1>
+
+        {% if mesSceances is empty %}
+            <div class="alert alert-warning">
+                Vous n'avez pas encore créé de séance.<br>
+                <a href="{{ path('app_sceance_new') }}" class="btnNormal mt-2">Créer une séance</a>
+            </div>
+        {% else %}
+            <form method="POST" class="sceance-form mt-4">
+
+                <div class="form-group">
+                    <label for="sceance_id" class="form-label">Sélectionnez une séance :</label>
+                    <select name="sceance_id" id="sceance_id" class="form-select" required>
+                        <option value="" disabled selected>Choisir une séance</option>
+                        {% for sceance in mesSceances %}
+                            <option value="{{ sceance.id }}">{{ sceance.titre }} - {{ sceance.date|date('d/m/Y') }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-submit mt-4">
+                    <button type="submit" class="btn-create-sceance">Ajouter <span class="plus">+</span></button>
+                </div>
+            </form>
+        {% endif %}
+
+        <div class="sceance-nav-links mt-4">
+            <a href="{{ path('app_exercices') }}" class="btnNormal">← Retour à la liste des exercices</a>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

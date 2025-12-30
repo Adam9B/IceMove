@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.titre }}{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_accueil') }}" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+
+    <div class="blog-detail-page">
+    <h1>{{ article.titre }}</h1>
+    <p><small>Publié le {{ article.date|date('d/m/Y H:i') }}</small></p>
+    <div class="content">
+      {{ article.contenu|nl2br }}
+    </div>
+    <a href="{{ path('blog_index') }}" class="link-back">← Retour à la liste</a>
+  </div>
+{% endblock %}

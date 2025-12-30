@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du Programme{% endblock %}
+
+{% block body %}
+<article class="programme-detail">
+
+    <h1 class="page-title   ">{{ programme.titre }}</h1>
+
+    <section>
+        
+        <article class="container sceance-details">
+			
+		<p class="collapsible-title">Description :</p>
+
+		<div class="collapsible-wrapper">
+			<div class="collapsible-text" id="collapsibleText">
+				{{ programme.description|default('Aucune description.') }}
+			</div>
+
+			<button class="toggle-btn" onclick="toggleText()" id="toggleBtn">Plus</button>
+		</div>
+	</article>
+    </section>
+
+    <hr>
+
+    <section class="programme-seances">
+        <h2>Séances associées</h2>
+
+        {% set joursOrdre = {
+            'Lundi': 0,
+            'Mardi': 1,
+            'Mercredi': 2,
+            'Jeudi': 3,
+            'Vendredi': 4,
+            'Samedi': 5,
+            'Dimanche': 6,
+            'Non défini': 999
+        } %}
+
+        {% if programme.programmeSceances is not empty %}
+            <ul class="seance-list">
+                {% for programmeSceance in programme.programmeSceances|sort((a, b) =>
+                    attribute(joursOrdre, (a.jour|default('Non défini')|capitalize)) <=> attribute(joursOrdre, (b.jour|default('Non défini')|capitalize)))
+                %}
+                    {% set sceance = programmeSceance.sceance %}
+                    <li class="seance-item">
+                        <div>
+                            <strong>{{ sceance.titre }}</strong>
+                            — <em>{{ programmeSceance.jour|default('Non défini')|capitalize }}</em>
+                        </div>
+                        <a href="{{ path('app_sceance_show', {id: sceance.id}) }}" class="btn-link">Voir</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune séance pour ce programme.</p>
+        {% endif %}
+    </section>
+
+    <section class="programme-actions">
+        <a href="{{ path('app_programme_edit', {id: programme.id}) }}" class="btn-action">Modifier</a>
+        <a href="{{ path('app_programme_index') }}" class="btn-action">Retour à la liste</a>
+
+        <form method="post" action="{{ path('app_programme_delete', {id: programme.id}) }}"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer ce programme ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+            <button class="btn-delete">Supprimer</button>
+        </form>
+    </section>
+
+    <a href="{{ path('app_programme_ajouter_sceance', { id: programme.id }) }}" class="btn-create mt-4">Ajouter une séance</a>
+</article>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+<a href="javascript:history.back()" class='retourAccueil'>
+		<img src="{{ asset('img/arrow-left-solid.svg') }}" alt="Description" class="img-fluid mx-auto  flecheRetour"></a>
+
+<div class="divlogoLogin">
+			<img src="{{ asset('img/finalLogo.jpg') }}" alt="Description" class="img-fluid   logo">
+		</div>
+    
+
+<div class="divLogin">
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        <label for="registration_form_email">Email</label>
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre email'}}) }}
+
+        <label for="registration_form_plainPassword">Mot de passe</label>
+        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre mot de passe'}}) }}
+
+        <div class="mb-3 mt-2">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            <label for="registration_form_agreeTerms">Accepter les conditions</label>
+        </div>
+
+        <button type="submit" class="buttonConnexion">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+
+    <p class="inscription">Déjà inscrit ? <a href="{{ path('app_login') }}">Me connecter</a></p>
+</div>
+    
+{% endblock %}
